@@ -1,0 +1,18 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+NAME = analyseur_lexical
+SRC = main.c 
+OBJ = $(SRC:.c=.o)
+
+.PHONY: all run clean
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+    $(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+
+run: $(NAME)
+    ./$(NAME)
+
+clean:
+    rm -f $(OBJ) $(NAME)

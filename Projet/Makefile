@@ -9,10 +9,10 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-    $(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 run: $(NAME)
-    ./$(NAME)
+	./$(NAME)
 
 clean:
-    rm -f $(OBJ) $(NAME)
+	rm -f $(OBJ) $(NAME)

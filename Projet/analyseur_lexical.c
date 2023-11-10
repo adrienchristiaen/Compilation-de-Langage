@@ -1,5 +1,5 @@
 #include "analyseur_lexical.h"
-#include "header.h"
+
 
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {

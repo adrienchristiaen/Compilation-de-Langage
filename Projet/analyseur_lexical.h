@@ -1,12 +1,14 @@
 #include "header.h"
 // creation de la variable qui va contenir le caractere actuel en ascii
-int caractereActuel = 0;
+extern const int caractereActuel;
 // endroit du carectere sur le mot qu'on lit
-int position_caractere = 0;
+extern const int position_caractere;
 // variable qui contiendra le nombre de ligne
-int line = 1;
+extern const int line;
 // variaable qui contiendra le numéro du caractère dans la ligne
-int column = 1;
+extern const int column;
+// si on est dans un string, on met cette variable à 1
+extern const int stringValeur; 
 
 struct element_token_valeur {
     int tokenCodageId;
@@ -30,6 +32,13 @@ void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie);
 //Fonction qui prends un mot et le compare avec les mots d'une liste et renvoie l'index du token correspondant
 
 int comparer_mot(const char* mot, const char** liste_mots, const int* liste_indices, int taille_liste); 
+
+//Fonction qui renvoie 1 si c’est un float et -1 sinon
+int estUnFloat(char*mot);
+
+//Fonction qui renvoie 1 si c’est un entier et -1 sinon
+int estUnEntier(char*mot);
+
 
 //Creer la fonction tokeniser 
 

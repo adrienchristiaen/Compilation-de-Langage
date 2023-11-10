@@ -53,7 +53,10 @@ int main(){
     element_token->column = 0;
     element_token->next = NULL;
     list_token->head = element_token;
-
+    //test estUnEntier
+    char * mot = "123";
+    int test = estUnEntier(mot);
+    printf("%d", test);
     // utiliser la fonction tokeniser
   
 

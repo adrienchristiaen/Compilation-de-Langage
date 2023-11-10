@@ -1,9 +1,13 @@
+#ifndef HEADER_H
+#define HEADER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <assert.h>
+
 
 
 // Les mots clés de notre langage
@@ -72,3 +76,5 @@ typedef enum {
     // Erreur
     ERROR_TOKEN
 } ada_token_type;
+
+#endif // HEADER_H

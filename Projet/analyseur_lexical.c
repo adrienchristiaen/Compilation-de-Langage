@@ -1,17 +1,38 @@
 #include "analyseur_lexical.h"
+#include "header.h"
 
-//Fonction qui supprime les commentaires du fichier source en Ada 
 
-void supprimer_commentaires(FILE* fichier); 
+void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
+    int caractereActuel;
+    int caracterePrecedent = EOF; // (End Of File)
+    bool dans_commentaire = false; //drapeau pour savoir si on est dans un commentaire ou pas 
 
-//Fonction qui prends un mot et le compare avec les mots d'une liste et renvoie l'index du token correspondant
+    while ((caractereActuel = fgetc(fichier_entree)) != EOF) {
+        if (!dans_commentaire && caractereActuel == '-' && caracterePrecedent == '-') {
+            dans_commentaire = true;
+        } else if (dans_commentaire && caractereActuel == '\n') {
+            dans_commentaire = false;
+        }
 
-int comparer_mot(char *mot); 
 
-//Creer la fonction tokeniser 
+        if (!dans_commentaire) {
+            fputc(caractereActuel, fichier_sortie);
+        }
+        caracterePrecedent = caractereActuel;
+    }
+}
 
-void tokeniser(FILE* fichier, struct linked_list_token_valeur * list_token);
+//fgetc lit le fichier caractère par caractère 
+//fputc écrit dans le fichier caractère par caractère
+//En Ada un commentaire commence par -- et se termine par un retour à la ligne
 
-//Creer la fonction afficher liste des tokens ligne par ligne 
+int comparer_mot(const char* mot, const char** liste_mots, const int* liste_indices, int taille_liste) {
+    for (int i = 0; i < taille_liste; ++i) {
+        if (strcmp(mot, liste_mots[i]) == 0) {
+            return liste_indices[i];
+        }
+    }
+    // Retourne -1 si le mot n'est pas trouvé dans la liste
+    return -1;
+}
 
-void afficher_liste_tokens(struct linked_list_token_valeur * list_token);

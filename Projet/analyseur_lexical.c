@@ -1,15 +1,15 @@
 #include "analyseur_lexical.h"
 
 // creation de la variable qui va contenir le caractere actuel en ascii
-int caractereActuel;
+int caractereActuel=0;
 // endroit du carectere sur le mot qu'on lit
-int position_caractere;
+int position_caractere=1;
 // variable qui contiendra le nombre de ligne
-int line;
+int line=1;
 // variaable qui contiendra le numéro du caractère dans la ligne
-int column;
+int column=1;
 // si on est dans un string, on met cette variable à 1
-int stringValeur; 
+int stringValeur = 0; 
 
 
 // Les mots clés de notre langage

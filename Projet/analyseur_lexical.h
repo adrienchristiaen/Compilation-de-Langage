@@ -1,14 +1,4 @@
 #include "header.h"
-// creation de la variable qui va contenir le caractere actuel en ascii
-extern const int caractereActuel;
-// endroit du carectere sur le mot qu'on lit
-extern const int position_caractere;
-// variable qui contiendra le nombre de ligne
-extern const int line;
-// variaable qui contiendra le numéro du caractère dans la ligne
-extern const int column;
-// si on est dans un string, on met cette variable à 1
-extern const int stringValeur; 
 
 struct element_token_valeur {
     int tokenCodageId;

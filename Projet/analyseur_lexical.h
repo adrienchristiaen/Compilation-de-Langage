@@ -29,7 +29,7 @@ void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie);
 
 //Fonction qui prends un mot et le compare avec les mots d'une liste et renvoie l'index du token correspondant
 
-int comparer_mot(char *mot); 
+int comparer_mot(const char* mot, const char** liste_mots, const int* liste_indices, int taille_liste); 
 
 //Creer la fonction tokeniser 
 

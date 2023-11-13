@@ -50,6 +50,16 @@ const char* literal_token[] = { "integer_literal", "float_literal", "string_lite
 const int literal_token_keep[] = {1 , 1, 1, 1, 1} ;
 const int literal_token_index[] = {48, 49, 50, 51, 52} ;
 
+// Identificateur nom de variable, de fonction, de procédure etc..
+const char* identifier_token[] = { "identifier"} ;
+const int identifier_token_keep[] = {1} ;
+const int identifier_token_index[] = {53} ;
+
+// autre mot clé 
+const char* other_keyword_token[] = {"with", "use", "package", "body", "private", "limited", "null"};
+const int other_keyword_token_keep[] = {1, 1, 1, 1, 1, 1, 1};
+const int other_keyword_token_index[] = {54, 55, 56, 57, 58, 59, 60};
+
 
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {

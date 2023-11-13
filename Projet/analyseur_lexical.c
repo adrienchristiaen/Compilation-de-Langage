@@ -121,3 +121,70 @@ int estUnEntier(char*mot){
     return 1;
 }
 
+void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
+    struct element_token_valeur *current = list_token->head;
+
+    while (current != NULL) {
+        if (current->tokenCodageId == 0) {
+            break; // Fin de la liste
+        }
+
+        if (current->valeur[0] == NULL) {
+            printf("%d", current->tokenCodageId);
+        } else {
+            for(int i=0 ; i<MAX_LENGTH ; i++){
+                if(current->valeur[i] == NULL){
+                    break;
+                }
+                printf("(%d,%s)", current->tokenCodageId,current->valeur[i]);
+            }
+            
+        }
+
+        // Passez au prochain élément
+        current = current->next;
+    }
+}
+
+
+int index_token_word(const char* mot){
+    int index = comparer_mot(mot, keyword_token, keyword_token_index, 8);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, type_token, type_token_index, 5);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, declaration_token, declaration_token_index, 7);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, operator_token, operator_token_index, 8);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, comparison_token, comparison_token_index, 6);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, punctuation_token, punctuation_token_index, 4);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, parenthesis_token, parenthesis_token_index, 4);
+    if (index != -1){
+        return index;
+    }
+    index = comparer_mot(mot, assignment_token, assignment_token_index, 5);
+    if (index != -1){
+        return index;
+    }
+ 
+    index = comparer_mot(mot, other_keyword_token, other_keyword_token_index, 7);
+    if (index != -1){
+        return index;
+    }
+    return -1;
+
+}

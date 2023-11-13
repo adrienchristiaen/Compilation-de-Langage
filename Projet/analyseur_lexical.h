@@ -29,6 +29,14 @@ int estUnFloat(char*mot);
 //Fonction qui renvoie 1 si c’est un entier et -1 sinon
 int estUnEntier(char*mot);
 
+//Fonction qui renvoie 1 si c’est un string et -1 sinon
+int estUnString(char*mot);
+
+//Fonction qui renvoie 1 si c’est un char et -1 sinon
+int estUnChar(char*mot);
+
+//Fonction qui renvoie 1 si c’est un boolean et -1 sinon
+int estUnBoolean(char*mot);
 
 //Creer la fonction tokeniser 
 

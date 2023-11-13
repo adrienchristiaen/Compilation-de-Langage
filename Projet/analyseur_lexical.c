@@ -121,3 +121,52 @@ int estUnEntier(char*mot){
     return 1;
 }
 
+int estUnString(char*mot){
+    int longueur = strlen(mot);
+    int i ;
+    // on regarde si le premier caractère est un "
+    if (mot[0] != '"'){
+        return -1;
+    }
+    // on regarde si le dernier caractère est un "
+    if (mot[longueur-1] != '"'){
+        return -1;
+    }
+    // on regarde si il y a un " au milieu
+    for (i=1; i<longueur-1; i++){
+        if (mot[i] == '"'){
+            return -1;
+        }
+    }
+    return 1;
+}
+
+// la longueur du char est de 1
+int estUnChar(char*mot){
+       // on regarde si la longueur est de 3 caractères
+    if (strlen(mot) != 3) {
+        return -1;
+    }
+    
+    // on regarde si le premier caractère est un '
+    if (mot[0] != '\'') {
+        return -1;
+    }
+    
+    // on regarde si le dernier caractère est un '
+    if (mot[2] != '\'') {
+        return -1;
+    }
+    
+    // Si toutes les conditions sont remplies, c'est un char valide
+    return 1;
+
+}
+
+int estUnBoolean(char*mot){
+    // on regarde si le mot est true ou false
+    if (strcmp(mot, "true") == 0 || strcmp(mot, "false") == 0) {
+        return 1;
+    }
+    return -1;
+}

@@ -112,61 +112,6 @@ int estUnEntier(char*mot){
     return 1;
 }
 
-<<<<<<< HEAD
-void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
-    struct element_token_valeur *current = list_token->head;
-
-    while (current != NULL) {
-        if (current->tokenCodageId == 0) {
-            break; // Fin de la liste
-        }
-
-        if (current->valeur[0] == NULL) {
-            printf("%d", current->tokenCodageId);
-        } else {
-            for(int i=0 ; i<MAX_LENGTH ; i++){
-                if(current->valeur[i] == NULL){
-                    break;
-                }
-                printf("(%d,%s)", current->tokenCodageId,current->valeur[i]);
-            }
-            
-        }
-
-        // Passez au prochain élément
-        current = current->next;
-    }
-}
-
-
-int index_token_word(const char* mot){
-    int index = comparer_mot(mot, file_token, file_token_index, 5);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, declaration_token, declaration_token_index, 8);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, mode_token, mode_token_index, 2);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, expression_token, expression_token_index, 7);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, instruction_token, instruction_token_index, 8);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, operator_token, operator_token_index, 15);
-    if (index != -1){
-        return index;
-    }
-    return -1;
-
-=======
 int estUnString(char*mot){
     int longueur = strlen(mot);
     int i ;
@@ -215,5 +160,4 @@ int estUnBoolean(char*mot){
         return 1;
     }
     return -1;
->>>>>>> 1fa6bec93ce9bced538cba0df662ef3338fd99c9
 }

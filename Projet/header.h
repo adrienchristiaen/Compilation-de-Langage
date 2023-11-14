@@ -8,63 +8,52 @@
 #include <stdbool.h>
 #include <assert.h>
 
-extern const char* keyword_token[];
-extern const int keyword_token_keep[];
-extern const int keyword_token_index[];
-extern const char* type_token[];
-extern const int type_token_keep[];
-extern const int type_token_index[];
-extern const char* declaration_token[];
+// Les mots clés de notre langage concernant le fichier
+extern const char* file_token[];
+extern const int file_token_keep[]; 
+extern const int file_token_index[]; 
+// Les déclarations de notre langage
+extern const char* declaration_token[]; 
 extern const int declaration_token_keep[];
 extern const int declaration_token_index[];
-extern const char* operator_token[];
+// Les modes de notre langage
+extern const char* mode_token[]; 
+extern const int mode_token_keep[];
+extern const int mode_token_index[]; 
+// Les expressions de notre langage
+extern const char* expression_token[]; 
+extern const int expression_token_keep[];
+extern const int expression_token_index[]; 
+// Les instructions de notre langage
+extern const char* instruction_token[]; 
+extern const int instruction_token_keep[];
+extern const int instruction_token_index[];
+// Les opérateurs de notre langage
+extern const char* operator_token[]; 
 extern const int operator_token_keep[];
-extern const int operator_token_index[];
-extern const char* comparison_token[];
-extern const int comparison_token_keep[];
-extern const int comparison_token_index[];
-extern const char* punctuation_token[];
-extern const int punctuation_token_keep[];
-extern const int punctuation_token_index[];
-extern const char* parenthesis_token[];
-extern const int parenthesis_token_keep[];
-extern const int parenthesis_token_index[];
-extern const char* assignment_token[];
-extern const int assignment_token_keep[];
-extern const int assignment_token_index[];
-extern const char* literal_token[];
-extern const int literal_token_keep[];
-extern const int literal_token_index[];
+extern const int operator_token_index[]; 
 
 
 
-
+// Énumération pour les tokens
 typedef enum {
-    // Structure de contrôle
-    IF_TOKEN, ELSE_TOKEN, ELSIF_TOKEN, THEN_TOKEN, END_TOKEN_1, LOOP_TOKEN, WHILE_TOKEN, FOR_TOKEN, 
-    // Types de données
-    INTEGER_TOKEN, FLOAT_TOKEN, STRING_TOKEN, CHAR_TOKEN, BOOLEAN_TOKEN, 
+    // Mots-clés pour le fichier
+    WITH_FILE_TOKEN, USE_FILE_TOKEN, PROCEDURE_FILE_TOKEN, IS_FILE_TOKEN, SEMICOLON_FILE_TOKEN,
     // Déclarations
-    DECLARE_TOKEN, FUNCTION_TOKEN, PROCEDURE_TOKEN, IS_TOKEN, BEGIN_TOKEN, END_TOKEN_2, RETURN_TOKEN, 
+    TYPE_DECLARATION_TOKEN, ACCESS_DECLARATION_TOKEN, RECORD_DECLARATION_TOKEN, END_DECLARATION_TOKEN, COLON_DECLARATION_TOKEN, ASSIGNMENT_DECLARATION_TOKEN, BEGIN_DECLARATION_TOKEN, FUNCTION_DECLARATION_TOKEN, RETURN_DECLARATION_TOKEN,
+    // Modes
+    IN_MODE_TOKEN, OUT_MODE_TOKEN,
+    // Expressions
+    TRUE_EXPRESSION_TOKEN, FALSE_EXPRESSION_TOKEN, NULL_EXPRESSION_TOKEN, LEFT_PAREN_EXPRESSION_TOKEN, RIGHT_PAREN_EXPRESSION_TOKEN, NOT_EXPRESSION_TOKEN, NEW_EXPRESSION_TOKEN,
+    // Instructions
+    IF_INSTRUCTION_TOKEN, THEN_INSTRUCTION_TOKEN, ELSIF_INSTRUCTION_TOKEN, ELSE_INSTRUCTION_TOKEN, FOR_INSTRUCTION_TOKEN, REVERSE_INSTRUCTION_TOKEN, LOOP_INSTRUCTION_TOKEN, WHILE_INSTRUCTION_TOKEN,
     // Opérateurs
-    PLUS_TOKEN, MINUS_TOKEN, MULTIPLY_TOKEN, DIVIDE_TOKEN, MOD_TOKEN, AND_TOKEN, OR_TOKEN, NOT_TOKEN, 
-    // Comparaisons
-    EQUAL_TOKEN, NOT_EQUAL_TOKEN, LESS_THAN_TOKEN, LESS_EQUAL_TOKEN, GREATER_THAN_TOKEN, GREATER_EQUAL_TOKEN, 
-    // Symboles de ponctuation
-    SEMICOLON_TOKEN, COLON_TOKEN, COMMA_TOKEN, DOT_TOKEN, 
-    // Parenthèses et crochets
-    LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, LEFT_BRACKET_TOKEN, RIGHT_BRACKET_TOKEN, 
-    // Affectation et opérateurs
-    ASSIGNMENT_TOKEN, ADD_ASSIGNMENT_TOKEN, SUBTRACT_ASSIGNMENT_TOKEN, 
-    MULTIPLY_ASSIGNMENT_TOKEN, DIVIDE_ASSIGNMENT_TOKEN, 
-    // Identificateurs
-    IDENTIFIER_TOKEN,
-    // Valeurs littérales
-    INTEGER_LITERAL_TOKEN, FLOAT_LITERAL_TOKEN, STRING_LITERAL_TOKEN, CHAR_LITERAL_TOKEN, BOOLEAN_LITERAL_TOKEN, 
+    EQUAL_OPERATOR_TOKEN, NOT_EQUAL_OPERATOR_TOKEN, LESS_THAN_OPERATOR_TOKEN, LESS_EQUAL_OPERATOR_TOKEN, GREATER_THAN_OPERATOR_TOKEN, GREATER_EQUAL_OPERATOR_TOKEN, PLUS_OPERATOR_TOKEN, MINUS_OPERATOR_TOKEN, MULTIPLY_OPERATOR_TOKEN, DIVIDE_OPERATOR_TOKEN, REM_OPERATOR_TOKEN, AND_OPERATOR_TOKEN, THEN_OPERATOR_TOKEN, OR_OPERATOR_TOKEN, DOT_OPERATOR_TOKEN,
     // Fin de fichier
-    EOF_TOKEN, 
+    EOF_TOKEN,
     // Erreur
     ERROR_TOKEN
 } ada_token_type;
+
 
 #endif // HEADER_H

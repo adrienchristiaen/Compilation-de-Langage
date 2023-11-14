@@ -12,54 +12,35 @@ int column=1;
 int stringValeur = 0; 
 
 
-// Les mots clés de notre langage
-const char* keyword_token[] = {"if", "else", "elsif", "then", "end", "loop", "while", "for"} ;
-// Les mots clés de notre langage qui doivent être gardés et on enlevera ceux qui ne sont pas dans cette liste, en regardardant lettre par lettre
-const int keyword_token_keep[] = {1 , 1, 1, 1, 1, 1, 1, 1} ;
-const int keyword_token_index[] = {1, 2, 3, 4, 5, 6, 7, 8} ;
-// Les types de données de notre langage
-const char* type_token[] = { "integer", "float", "string", "char", "boolean" } ;
-const int type_token_keep[] = {1 , 1, 1, 1, 1} ;
-const int type_token_index[] = {9, 10, 11, 12, 13} ;
+// Les mots clés de notre langage concernant le fichier
+const char* file_token[] = {"with", "use", "procedure", "is", ";"};
+const int file_token_keep[] = {1, 1, 1, 1, 1};
+const int file_token_index[] = {1, 2, 3, 4, 5};
+
 // Les déclarations de notre langage
-const char* declaration_token[] = { "declare", "function", "procedure", "is", "begin", "end", "return"} ;
-const int declaration_token_keep[] = {1 , 1, 1, 1, 1, 1, 1} ;
-const int declaration_token_index[] = {14, 15, 16, 17, 18, 19, 20} ;
+const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return"};
+const int declaration_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+const int declaration_token_index[] = {6, 7, 8, 9, 10, 11, 12, 13, 14};
+
+// Les modes de notre langage
+const char* mode_token[] = {"in", "out"};
+const int mode_token_keep[] = {1, 1};
+const int mode_token_index[] = {15, 16};
+
+// Les expressions de notre langage
+const char* expression_token[] = { "true", "false", "null", "(", ")", "not", "new"};
+const int expression_token_keep[] = {1, 1, 1, 1, 1, 1, 1}; 
+const int expression_token_index[] = {17, 18, 19, 20, 21, 22, 23};
+
+// Les instructions de notre langage
+const char* instruction_token[] = { "if", "then", "elsif", "else", "for", "reverse", "loop", "while"};
+const int instruction_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1};
+const int instruction_token_index[] = {24, 25, 26, 27, 28, 29, 30, 31};
+
 // Les opérateurs de notre langage
-const char* operator_token[] = { "+", "-", "*", "/", "mod", "and", "or", "not"} ;
-const int operator_token_keep[] = {1 , 1, 1, 1, 1, 1, 1, 1} ;
-const int operator_token_index[] = {21, 22, 23, 24, 25, 26, 27, 28} ;
-// Les comparaisons de notre langage
-const char* comparison_token[] = { "=", "/=", "<", "<=", ">", ">="} ;
-const int comparison_token_keep[] = {1 , 1, 1, 1, 1, 1} ;
-const int comparison_token_index[] = {29, 30, 31, 32, 33, 34} ;
-// Les symboles de ponctuation de notre langage
-const char* punctuation_token[] = { ";", ":", ",", "."} ;
-const int punctuation_token_keep[] = {1 , 1, 1, 1} ;
-const int punctuation_token_index[] = {35, 36, 37, 38} ;
-// Les parenthèses et crochets de notre langage
-const char* parenthesis_token[] = { "(", ")", "[", "]"} ;
-const int parenthesis_token_keep[] = {1 , 1, 1, 1} ;
-const int parenthesis_token_index[] = {39, 40, 41, 42} ;
-// Les affectations et opérateurs de notre langage
-const char* assignment_token[] = { ":=", "+=", "-=", "*=", "/="} ;
-const int assignment_token_keep[] = {1 , 1, 1, 1, 1} ;
-const int assignment_token_index[] = {43, 44, 45, 46, 47} ;
-// Les valeurs littérales de notre langage
-const char* literal_token[] = { "integer_literal", "float_literal", "string_literal", "char_literal", "boolean_literal"} ;
-const int literal_token_keep[] = {1 , 1, 1, 1, 1} ;
-const int literal_token_index[] = {48, 49, 50, 51, 52} ;
-
-// Identificateur nom de variable, de fonction, de procédure etc..
-const char* identifier_token[] = { "identifier"} ;
-const int identifier_token_keep[] = {1} ;
-const int identifier_token_index[] = {53} ;
-
-// autre mot clé 
-const char* other_keyword_token[] = {"with", "use", "package", "body", "private", "limited", "null"};
-const int other_keyword_token_keep[] = {1, 1, 1, 1, 1, 1, 1};
-const int other_keyword_token_index[] = {54, 55, 56, 57, 58, 59, 60};
-
+const char* operator_token[] = {"=", "/=", "<", "<=", ">", ">=", "+", "-", "*", "/", "rem", "and", "then", "or", "."};
+const int operator_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; 
+const int operator_token_index[] = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42 , 43, 44, 45, 46};
 
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
@@ -159,40 +140,27 @@ void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
 
 
 int index_token_word(const char* mot){
-    int index = comparer_mot(mot, keyword_token, keyword_token_index, 8);
+    int index = comparer_mot(mot, file_token, file_token_index, 5);
     if (index != -1){
         return index;
     }
-    index = comparer_mot(mot, type_token, type_token_index, 5);
+    index = comparer_mot(mot, declaration_token, declaration_token_index, 8);
     if (index != -1){
         return index;
     }
-    index = comparer_mot(mot, declaration_token, declaration_token_index, 7);
+    index = comparer_mot(mot, mode_token, mode_token_index, 2);
     if (index != -1){
         return index;
     }
-    index = comparer_mot(mot, operator_token, operator_token_index, 8);
+    index = comparer_mot(mot, expression_token, expression_token_index, 7);
     if (index != -1){
         return index;
     }
-    index = comparer_mot(mot, comparison_token, comparison_token_index, 6);
+    index = comparer_mot(mot, instruction_token, instruction_token_index, 8);
     if (index != -1){
         return index;
     }
-    index = comparer_mot(mot, punctuation_token, punctuation_token_index, 4);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, parenthesis_token, parenthesis_token_index, 4);
-    if (index != -1){
-        return index;
-    }
-    index = comparer_mot(mot, assignment_token, assignment_token_index, 5);
-    if (index != -1){
-        return index;
-    }
- 
-    index = comparer_mot(mot, other_keyword_token, other_keyword_token_index, 7);
+    index = comparer_mot(mot, operator_token, operator_token_index, 15);
     if (index != -1){
         return index;
     }

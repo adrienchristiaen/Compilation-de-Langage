@@ -17,7 +17,7 @@ int identifiantValeur = 0;
 // Les mots clés de notre langage concernant le fichier
 const char* file_token[] = {"with", "use", "procedure", "is", ";", "put"};
 const int file_token_keep[] = {1, 1, 1, 1, 1, 1};
-const int file_token_index[] = {1, 2, 3, 4, 5, 53};
+const int file_token_index[] = {1, 2, 3, 4, 5, 54};
 
 // Les déclarations de notre langage
 const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return"};
@@ -49,6 +49,15 @@ const char* type_token[] = {"character", "string", "boolean", "integer", "float"
 const int type_token_keep[] = {1, 1, 1, 1, 1, 1}; 
 const int type_token_index[] = {47, 48, 49, 50, 51, 52};
 
+// Identificateur nom de variable, de fonction, de procédure etc..
+const char* identifier_token[] = { "identifier"} ;
+const int identifier_token_keep[] = {1} ;
+const int identifier_token_index[] = {53} ;
+
+// Les valeurs littérales de notre langage
+const char* literal_token[] = { "integer_literal", "float_literal", "string_literal", "char_literal", "boolean_literal"} ;
+const int literal_token_keep[] = {1 , 1, 1, 1, 1} ;
+const int literal_token_index[] = {55, 56, 57, 58, 59} ;
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
     int caractereActuel;
@@ -190,6 +199,7 @@ void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
 }
 
 
+// Fonction index_token_word
 int index_token_word(const char* mot) {
     int index = comparer_mot(mot, file_token, file_token_index, 6);
     if (index != -1) {
@@ -219,7 +229,15 @@ int index_token_word(const char* mot) {
     if (index != -1) {
         return index;
     }
-    return 53; 
+    index = comparer_mot(mot, identifier_token, identifier_token_index, 1);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, literal_token, literal_token_index, 5);
+    if (index != -1) {
+        return index;
+    }
+    return 53; // identifier_token
 }
 
 
@@ -251,24 +269,24 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
             i = 0;
 
             if (estUnFloat(mot) == 1) {
-                current->tokenCodageId = 49;
+                current->tokenCodageId = 56;
                 current->valeur[0] = strdup(mot);
             }
             else if (estUnEntier(mot) == 1) {
-                current->tokenCodageId = 48;
+                current->tokenCodageId = 55;
                 current->valeur[0] = strdup(mot);
             } 
             else if (estUnString(mot) == 1) {
-                current->tokenCodageId = 50;
+                current->tokenCodageId = 57;
                 current->valeur[0] = strdup(mot);
             }
             // si il y a un " au début du mot et à la fin du mot et pas au milieu
             else if (estUnChar(mot) == 1) {
-                current->tokenCodageId = 51;
+                current->tokenCodageId = 58;
                 current->valeur[0] = strdup(mot);
             }
             else if (estUnBoolean(mot) == 1) {
-                current->tokenCodageId = 52;
+                current->tokenCodageId = 59;
                 current->valeur[0] = strdup(mot);
             }
            

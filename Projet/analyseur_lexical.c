@@ -3,19 +3,21 @@
 // creation de la variable qui va contenir le caractere actuel en ascii
 int caractereActuel=0;
 // endroit du carectere sur le mot qu'on lit
-int position_caractere=1;
+int position_caractere=0;
 // variable qui contiendra le nombre de ligne
 int line=1;
 // variaable qui contiendra le numéro du caractère dans la ligne
 int column=1;
 // si on est dans un string, on met cette variable à 1
 int stringValeur = 0; 
+// si on a un identifiant, on met cette variable à 1
+int identifiantValeur = 0;
 
 
 // Les mots clés de notre langage concernant le fichier
-const char* file_token[] = {"with", "use", "procedure", "is", ";"};
-const int file_token_keep[] = {1, 1, 1, 1, 1};
-const int file_token_index[] = {1, 2, 3, 4, 5};
+const char* file_token[] = {"with", "use", "procedure", "is", ";", "put"};
+const int file_token_keep[] = {1, 1, 1, 1, 1, 1};
+const int file_token_index[] = {1, 2, 3, 4, 5, 53};
 
 // Les déclarations de notre langage
 const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return"};
@@ -41,6 +43,11 @@ const int instruction_token_index[] = {24, 25, 26, 27, 28, 29, 30, 31};
 const char* operator_token[] = {"=", "/=", "<", "<=", ">", ">=", "+", "-", "*", "/", "rem", "and", "then", "or", "."};
 const int operator_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; 
 const int operator_token_index[] = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42 , 43, 44, 45, 46};
+
+// Les types de notre langage
+const char* type_token[] = {"character", "string", "boolean", "integer", "float", "access"};
+const int type_token_keep[] = {1, 1, 1, 1, 1, 1}; 
+const int type_token_index[] = {47, 48, 49, 50, 51, 52};
 
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
@@ -78,28 +85,23 @@ int comparer_mot(const char* mot, const char** liste_mots, const int* liste_indi
 }
 
 // il faut parcourir le mot lettre par lettre et regarder si c'est un entier ou pas et si il y a un . 
-int estUnFloat(char*mot){
+int estUnFloat(char*mot) {
     int longueur = strlen(mot);
-    int i ;
-    // passe à 1 si on a trouvé un point
-    int point = 0;
-    for (i=0; i<longueur; i++){
-        if(point==0){
-            if (isdigit(mot[i]) == 0){
+    int i;
+    int pointCount = 0;
+
+    for (i = 0; i < longueur; i++) {
+        if (isdigit(mot[i]) == 0) {
+            if (mot[i] == '.' && pointCount == 0) {
+                pointCount = 1;
+            } else {
                 return -1;
-            }
-        }
-        else{
-            if (isdigit(mot[i]) == 0 && mot[i] != '.'){
-                return -1;
-            }
-            if (mot[i] == '.'){
-                point = 1;
             }
         }
     }
-    return 1;
+    return pointCount == 1 ? 1 : -1;
 }
+
 
 int estUnEntier(char*mot){
     int longueur = strlen(mot);
@@ -160,4 +162,177 @@ int estUnBoolean(char*mot){
         return 1;
     }
     return -1;
+}
+
+void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
+    struct element_token_valeur *current = list_token->head;
+
+    while (current != NULL) {
+        if (current->tokenCodageId == 0) {
+            break; // Fin de la liste
+        }
+
+        if (current->valeur[0] == NULL) {
+            printf("(%d)\n", current->tokenCodageId);
+        } else {
+            for (int i = 0; i < MAX_LENGTH; i++) {
+                if (current->valeur[i] == NULL) {
+                    break;
+                }
+                printf("(%d,%s) ", current->tokenCodageId, current->valeur[i]);
+            }
+            printf("\n");
+        }
+
+        // Passez au prochain élément
+        current = current->next;
+    }
+}
+
+
+int index_token_word(const char* mot) {
+    int index = comparer_mot(mot, file_token, file_token_index, 6);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, declaration_token, declaration_token_index, 9);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, mode_token, mode_token_index, 2);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, expression_token, expression_token_index, 7);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, instruction_token, instruction_token_index, 8);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, operator_token, operator_token_index, 15);
+    if (index != -1) {
+        return index;
+    }
+    index = comparer_mot(mot, type_token, type_token_index, 6);
+    if (index != -1) {
+        return index;
+    }
+    return 53; 
+}
+
+
+
+
+void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
+    struct element_token_valeur *current = list_token->head;
+    printf("Liste des tokens :\n");
+
+    if (fichier == NULL) {
+        fprintf(stderr, "Invalid file pointer\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int caractereActuel;
+    char caractere;
+    char mot[MAX_LENGTH];
+    int i = 0;  // Index du caractère dans le mot
+
+    // Tant qu'on n'est pas à la fin du fichier
+    while ((caractereActuel = fgetc(fichier)) != EOF) {
+        caractere = (char)caractereActuel;
+        printf("caractere : %c\n", caractere);
+
+        // Si c'est un espace, cela signifie la fin d'un mot
+        if (caractere == ' ' || caractere == '\t' || caractere == '\n') {
+            // Vérifier le type du mot et ajouter à la liste des tokens
+            mot[i] = '\0';  // Ajouter le caractère de fin de chaîne
+            i = 0;
+
+            if (estUnFloat(mot) == 1) {
+                current->tokenCodageId = 49;
+                current->valeur[0] = strdup(mot);
+            }
+            else if (estUnEntier(mot) == 1) {
+                current->tokenCodageId = 48;
+                current->valeur[0] = strdup(mot);
+            } 
+            else if (estUnString(mot) == 1) {
+                current->tokenCodageId = 50;
+                current->valeur[0] = strdup(mot);
+            }
+            // si il y a un " au début du mot et à la fin du mot et pas au milieu
+            else if (estUnChar(mot) == 1) {
+                current->tokenCodageId = 51;
+                current->valeur[0] = strdup(mot);
+            }
+            else if (estUnBoolean(mot) == 1) {
+                current->tokenCodageId = 52;
+                current->valeur[0] = strdup(mot);
+            }
+           
+            
+            else {
+                current->tokenCodageId = index_token_word(mot);
+                current->valeur[0] = strdup(mot);
+            }
+            
+           
+            
+            // print le token id
+            printf("token id : %d\n", current->tokenCodageId);
+            // Mettre à jour les autres informations (ligne, colonne, etc.)
+            current->line = line;
+            current->column = column;
+            current->next = malloc(sizeof(struct element_token_valeur));
+            current = current->next;
+            current->tokenCodageId = 0;
+        
+            for (int j = 0; j < 1000; j++) {
+                current->valeur[j] = NULL;
+            }
+
+            current->line = 0;
+            current->column = 0;
+            current->next = NULL;
+            // si on est dans un \n on met à jour la ligne et la colonne
+            if (caractere == '\n') {
+                line++;
+                column = 1;
+            }
+            printf("line : %d\n", line);
+        } else {
+            // Ajouter le caractère au mot
+            mot[i++] = caractere;
+        }
+    }
+}
+
+void recopie_liste_token(struct linked_list_token_valeur * list_token, struct linked_list_token_valeur * list_token_recopie){
+    struct element_token_valeur *current = list_token->head;
+    struct element_token_valeur *current_recopie = list_token_recopie->head;
+
+    while (current->tokenCodageId !=0){
+        // si l'id du token est différent de 53, on le recopie dans la liste recopie
+        if(current->tokenCodageId!=53){
+            current_recopie->tokenCodageId = current->tokenCodageId;
+            current_recopie->valeur[0] = strdup(current->valeur[0]);
+            current_recopie->line = current->line;
+            current_recopie->column = current->column;
+            current_recopie->next = malloc(sizeof(struct element_token_valeur));
+            current_recopie = current_recopie->next;
+            current_recopie->tokenCodageId = 0;
+            for (int j = 0; j < 1000; j++) {
+                current_recopie->valeur[j] = NULL;
+            }
+            current_recopie->line = 0;
+            current_recopie->column = 0;
+            current_recopie->next = NULL;
+        }
+        // si c'est l'id 53,n on regarde si on a eu raison de dire que c'était un identifiant, donc on lit lettre par lettre le mot de current->valeur et on regarde si oui ou non c'est un token déjà existant et on l'ajoute dans la liste recopie, on regarde tout le mot entier car il peut se finir par ; ou ) ou ")  etc..
+     
+       
+        current = current->next;
+    }
 }

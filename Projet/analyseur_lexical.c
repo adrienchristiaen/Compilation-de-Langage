@@ -69,6 +69,8 @@ void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
             dans_commentaire = true;
         } else if (dans_commentaire && caractereActuel == '\n') {
             dans_commentaire = false;
+        } else if (!dans_commentaire && caracterePrecedent == '-' && caractereActuel != '-') {
+            fputc(caracterePrecedent, fichier_sortie);
         }
 
 
@@ -78,6 +80,7 @@ void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
         caracterePrecedent = caractereActuel;
     }
 }
+
 
 //fgetc lit le fichier caractère par caractère 
 //fputc écrit dans le fichier caractère par caractère

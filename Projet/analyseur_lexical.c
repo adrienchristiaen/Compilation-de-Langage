@@ -8,8 +8,6 @@ int position_caractere=0;
 int line=1;
 // variaable qui contiendra le numéro du caractère dans la ligne
 int column=1;
-// si on est dans un string, on met cette variable à 1
-int stringValeur = 0; 
 // si on a un identifiant, on met cette variable à 1
 int identifiantValeur = 0;
 
@@ -17,7 +15,7 @@ int identifiantValeur = 0;
 // Les mots clés de notre langage concernant le fichier
 const char* file_token[] = {"with", "use", "procedure", "is", ";", "put"};
 const int file_token_keep[] = {1, 1, 1, 1, 1, 1};
-const int file_token_index[] = {1, 2, 3, 4, 5, 54};
+const int file_token_index[] = {1, 2, 3, 4, 5, 52};
 
 // Les déclarations de notre langage
 const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return"};
@@ -45,9 +43,9 @@ const int operator_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 const int operator_token_index[] = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42 , 43, 44, 45, 46};
 
 // Les types de notre langage
-const char* type_token[] = {"character", "string", "boolean", "integer", "float", "access"};
-const int type_token_keep[] = {1, 1, 1, 1, 1, 1}; 
-const int type_token_index[] = {47, 48, 49, 50, 51, 52};
+const char* type_token[] = {"character", "boolean", "integer", "float", "access"};
+const int type_token_keep[] = {1, 1, 1, 1, 1}; 
+const int type_token_index[] = {47, 48, 49, 50, 51};
 
 // Identificateur nom de variable, de fonction, de procédure etc..
 const char* identifier_token[] = { "identifier"} ;
@@ -55,9 +53,9 @@ const int identifier_token_keep[] = {1} ;
 const int identifier_token_index[] = {53} ;
 
 // Les valeurs littérales de notre langage
-const char* literal_token[] = { "integer_literal", "float_literal", "string_literal", "char_literal", "boolean_literal"} ;
+const char* literal_token[] = { "integer_literal", "float_literal", "char_literal", "boolean_literal"} ;
 const int literal_token_keep[] = {1 , 1, 1, 1, 1} ;
-const int literal_token_index[] = {55, 56, 57, 58, 59} ;
+const int literal_token_index[] = {54, 55, 56, 57} ;
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
     int caractereActuel;
@@ -120,26 +118,6 @@ int estUnEntier(char*mot){
     int i ;
     for (i=0; i<longueur; i++){
         if (isdigit(mot[i]) == 0){
-            return -1;
-        }
-    }
-    return 1;
-}
-
-int estUnString(char*mot){
-    int longueur = strlen(mot);
-    int i ;
-    // on regarde si le premier caractère est un "
-    if (mot[0] != '"'){
-        return -1;
-    }
-    // on regarde si le dernier caractère est un "
-    if (mot[longueur-1] != '"'){
-        return -1;
-    }
-    // on regarde si il y a un " au milieu
-    for (i=1; i<longueur-1; i++){
-        if (mot[i] == '"'){
             return -1;
         }
     }
@@ -228,7 +206,7 @@ int index_token_word(const char* mot) {
     if (index != -1) {
         return index;
     }
-    index = comparer_mot(mot, type_token, type_token_index, 6);
+    index = comparer_mot(mot, type_token, type_token_index, 5);
     if (index != -1) {
         return index;
     }
@@ -236,7 +214,7 @@ int index_token_word(const char* mot) {
     if (index != -1) {
         return index;
     }
-    index = comparer_mot(mot, literal_token, literal_token_index, 5);
+    index = comparer_mot(mot, literal_token, literal_token_index, 4);
     if (index != -1) {
         return index;
     }
@@ -272,24 +250,20 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
             i = 0;
 
             if (estUnFloat(mot) == 1) {
-                current->tokenCodageId = 56;
+                current->tokenCodageId = 55;
                 current->valeur[0] = strdup(mot);
             }
             else if (estUnEntier(mot) == 1) {
-                current->tokenCodageId = 55;
+                current->tokenCodageId = 54;
                 current->valeur[0] = strdup(mot);
             } 
-            else if (estUnString(mot) == 1) {
-                current->tokenCodageId = 57;
-                current->valeur[0] = strdup(mot);
-            }
             // si il y a un " au début du mot et à la fin du mot et pas au milieu
             else if (estUnChar(mot) == 1) {
-                current->tokenCodageId = 58;
+                current->tokenCodageId = 56;
                 current->valeur[0] = strdup(mot);
             }
             else if (estUnBoolean(mot) == 1) {
-                current->tokenCodageId = 59;
+                current->tokenCodageId = 57;
                 current->valeur[0] = strdup(mot);
             }
            

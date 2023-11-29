@@ -2,7 +2,7 @@
 #define MAX_LENGTH 1000
 struct element_token_valeur {
     int tokenCodageId;
-    // la valeur est nul si c'est pas un string ou un entier ou une variable
+    // la valeur est nul si c'est pas un entier ou une variable (ou un string mais pas de string)
     char * valeur[MAX_LENGTH];
     int line;
     int column;
@@ -30,9 +30,6 @@ int estUnFloat(char*mot);
 
 //Fonction qui renvoie 1 si c’est un entier et -1 sinon
 int estUnEntier(char*mot);
-
-//Fonction qui renvoie 1 si c'est un string et -1 sinon
-int estUnString(char*mot);
 
 //Fonction qui renvoie 1 si c'est un char et -1 sinon
 int estUnChar(char*mot);

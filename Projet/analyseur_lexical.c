@@ -323,6 +323,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                             lettre[0] = mot[k];
                             // si c'est un entier, on regarde les prochains caractères pour voir si c'est un float 
                             if(index == 54){
+                                 printf("mot courant : %s\n", mot_courant);
                                 if(lettre[0] == '.'){
                                     int n = k;
                                  while (isdigit(mot[n]) != 0){
@@ -336,6 +337,10 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 }
                                  m=n-1;  }
                                  else if (isdigit(mot[k])==0){
+                                        if (m<j){
+                                            continue;
+                                        }
+                                        else {
                                    
                                         // ajoute dans la liste et on passe m à k+1
                                         current->tokenCodageId = index;
@@ -359,14 +364,9 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
 
 
 
-                                       
+                                        }
                                     }
-                                    else if (isdigit(mot[k])!=0){
-                                        
-                                        m=k+1;
-                                        continue;
-                                        
-                                 }
+                                   
                             // si c'est un entier
                            }
                                 
@@ -438,12 +438,14 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 else if (index == 58 && stringValeur == 1){
                                     stringValeur = 0;
                                 }
+                               
                                 current->tokenCodageId = index;
                                 current->valeur[0] = strdup(mot_courant);
                                 m=k;
                                 
                             }
-else if (index !=53 && j!=0 && k != longueur  ){
+                                else if (index !=53 && j!=0 && k != longueur  ){
+                                   
                                 if (premierMot == 0){
                                 // on créer motPremier ajoute mot[0:j-1] dans la liste
                                 char * motPremier = malloc(sizeof(char) * (j + 1));
@@ -469,6 +471,10 @@ else if (index !=53 && j!=0 && k != longueur  ){
                                     current->next = NULL;
                                     premierMot = 1;
                                 }
+                               
+                               if (index == 55 && isdigit(mot[k])!=0){
+                                   
+                                   continue;}
                                 if(index == 58 && stringValeur == 0){
                                     stringValeur = 1;
                                 }

@@ -1,5 +1,5 @@
 #include "analyseur_lexical.h"
-
+int bizarre=5;
 // creation de la variable qui va contenir le caractere actuel en ascii
 int caractereActuel=0;
 // endroit du carectere sur le mot qu'on lit
@@ -431,10 +431,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                     premierMot = 1;
                                 
                                }
-
-                                if(index == 58 && stringValeur == 0){
-                                    stringValeur = 1;
-                                }
+                                
                                 else if (index == 58 && stringValeur == 1){
                                     stringValeur = 0;
                                 }
@@ -471,7 +468,34 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                     current->next = NULL;
                                     premierMot = 1;
                                 }
-                               
+                               if ( m<j-bizarre){
+                                      char * motPremier = malloc(sizeof(char) * (j - m + 1));
+                                strncpy(motPremier, mot + m, j - m);
+                                motPremier[j - m] = '\0'; // Null-terminate the string
+                                printf("mot premier : %s\n", motPremier);
+                                int indexPremier = index_token_word(motPremier);
+                                current->tokenCodageId = indexPremier;
+                                current->valeur[0] = strdup(motPremier);
+                                current->line = line;
+
+                                current->column = column;
+                                column = column+1;
+                                current->next = malloc(sizeof(struct element_token_valeur));
+                                current = current->next;
+                                current->tokenCodageId = 0;
+                                
+                                for (int j = 0; j < 1000; j++) {
+                                        current->valeur[j] = NULL;
+                                    }
+
+                                    current->line = line;
+                                    column = column+1;
+                                    current->column = column;
+                                    current->next = NULL;
+                                    premierMot = 1;
+                                    m=j;
+                
+                                }
                                if (index == 55 && isdigit(mot[k])!=0){
                                    
                                    continue;}

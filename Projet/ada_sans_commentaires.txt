@@ -1,3 +1,4 @@
-l4z024f; 
-x:=3.332+4;
+l4z024f;
+x:=3.332+patate+4;
+
 with ada.text I0; use ada.text I0;

@@ -13,7 +13,7 @@ FILE* fichier_sortie_lecture = NULL;
 
 
 int main(){
-     char * mot = "12.3";
+     char * mot = "333.33";
     int a;
 
     a=estUnFloat(mot);
@@ -56,10 +56,11 @@ int main(){
     element_token_recopie->column = 0;
     element_token_recopie->next = NULL;
     list_token_recopie->head = element_token_recopie;
-
+    // test la fonction litMotFichier
     litMotFichier(fichier_sortie_lecture, list_token);
     afficher_liste_tokens(list_token);
    
+    
 
     // fermer le fichier ada_sans_commentaires.txt
     fclose(fichier_sortie_lecture);

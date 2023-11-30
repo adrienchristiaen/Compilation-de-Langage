@@ -1,4 +1,4 @@
-with ada. ;
+with ada.text IO use ada.text IO;
 x:=43224.4+4444/5+3;
 put('a');
 put('a');

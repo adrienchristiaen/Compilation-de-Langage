@@ -180,6 +180,10 @@ void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
 
 
 int index_token_word( char* mot){
+    // si c'ets un boolean, on renvoie 57
+    if (estUnBoolean(mot) == 1) {
+        return 57;
+    }
     // si c'est un float, on renvoie 49
     if (estUnFloat(mot) == 1) {
         return 55;
@@ -229,8 +233,8 @@ int index_token_word( char* mot){
 }
 
 
-
 void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
+    int m=0;
     int premierMot = 0; // 0 si c'est le premier mot, 1 sinon
     int line = 0;
     int column = 1;
@@ -284,7 +288,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
             else {
                 current->tokenCodageId = index_token_word(mot);
                 if (current->tokenCodageId == 53) {
-                    int m=0;
+                    m=0;
                     int longueur = strlen(mot);
                      for (int j=0; j<=longueur-1; j++){
                         if(j>=m){
@@ -300,7 +304,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 }
                         
                             // on fait la même chose avec /=    
-                                if (index == 43 && mot[k] == '='){
+                                if (index == 41 && mot[k] == '='){
                                    continue;
                                 }
                             // on fait la même chose avec <=
@@ -309,6 +313,10 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 }   
                             // on fait la même chose avec >=    
                                 if (index == 36 && mot[k] == '='){
+                                   continue;
+                                }
+                            // on fait la même chose pour in et integer donc on regarde si la prohcaine lettre est un t
+                                if (index == 15 && mot[k] == 't'){
                                    continue;
                                 }
                             char *lettre = malloc(sizeof(char) );
@@ -435,7 +443,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 m=k;
                                 
                             }
-                            else if (index !=53 && j!=0 && k != longueur  ){
+else if (index !=53 && j!=0 && k != longueur  ){
                                 if (premierMot == 0){
                                 // on créer motPremier ajoute mot[0:j-1] dans la liste
                                 char * motPremier = malloc(sizeof(char) * (j + 1));
@@ -580,8 +588,22 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                             
 
                         
+
                    }}}
+                // on regarde si m<longueur(mot)alors on ajoute mot[m:longueur(mot)] dans la liste
+                int longueur_mot = strlen(mot);
+                if(m<longueur_mot-1){
+                    char * mot_dernier = malloc(sizeof(char) * (longueur_mot - m + 1));
+                    strncpy(mot_dernier, mot + m, longueur_mot - m);
+                    mot_dernier[longueur_mot - m] = '\0'; // Null-terminate the string
+                    int index_dernier = index_token_word(mot_dernier);
+                    current->tokenCodageId = index_dernier;
+                    current->valeur[0] = strdup(mot_dernier);
+                    
+                }
                 
+                
+               
                 if (premierMot==0){
                     // on najoute le mot avec l'ID 53
                     current->tokenCodageId = 53;

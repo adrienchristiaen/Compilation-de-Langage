@@ -295,20 +295,20 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                             
                             int index = index_token_word(mot_courant);
                               // si c'est : , on regarde le caractère suivant pour voir si on a pas := 
-                                if (index == 11 && mot[k] == '='){
+                                if (index == 10 && mot[k] == '='){
                                    continue;
                                 }
                         
                             // on fait la même chose avec /=    
-                                if (index == 33 && mot[k] == '='){
+                                if (index == 43 && mot[k] == '='){
                                    continue;
                                 }
                             // on fait la même chose avec <=
-                                if (index == 35 && mot[k] == '='){
+                                if (index == 34 && mot[k] == '='){
                                    continue;
                                 }   
                             // on fait la même chose avec >=    
-                                if (index == 37 && mot[k] == '='){
+                                if (index == 36 && mot[k] == '='){
                                    continue;
                                 }
                             char *lettre = malloc(sizeof(char) );

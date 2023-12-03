@@ -243,7 +243,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
     int line = 0;
     int column = 1;
     struct element_token_valeur *current = list_token->head;
-    printf("Liste des tokens :\n");
+    
 
     if (fichier == NULL) {
         fprintf(stderr, "Invalid file pointer\n");
@@ -330,9 +330,9 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 }
                             char *lettre = malloc(sizeof(char) );
                             lettre[0] = mot[k];
-                            // si c'est un entier, on regarde les prochains caractères pour voir si c'est un float
-                                if(index == 54){
-                                 printf("mot courant : %s\n", mot_courant);
+                            // si c'est un entier, on regarde les prochains caractères pour voir si c'est un float 
+                            if(index == 54){
+                               
                                 if(lettre[0] == '.'){
                                     int n = k;
                                  while (isdigit(mot[n]) != 0){
@@ -378,10 +378,9 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                     }
                                    
                             // si c'est un entier
-                           }
+                            }
                                 
                             else if (index != 53 && j ==0 && k != longueur){
-                              
                                 
                                 current->tokenCodageId = index;
                                 // si ça correspond au token "\'", on met stringValeur à 1
@@ -456,7 +455,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 
                             }
                                 else if (index !=53 && j!=0 && k != longueur  ){
-                                   
+                                  
                                 if (premierMot == 0){
                                 // on créer motPremier ajoute mot[0:j-1] dans la liste
                                 char * motPremier = malloc(sizeof(char) * (j + 1));
@@ -482,7 +481,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                     current->next = NULL;
                                     premierMot = 1;
                                 }
-                                if (m<j){
+                                if (m<j && premierMot==0){
                                     // creation du mot[m:j-1]
                                     char * mot_milieu = malloc(sizeof(char) * (j - m + 1));
                                     strncpy(mot_milieu, mot + m, j - m);
@@ -667,7 +666,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                 
             
             // print le token id
-            printf("token id : %d\n", current->tokenCodageId);
+            
             // Mettre à jour les autres informations (ligne, colonne, etc.)
             current->line = line;
             current->column = column;
@@ -686,7 +685,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
         
             current->next = NULL;
           
-            printf("line : %d\n", line);}
+           }
         } else {
             // Ajouter le caractère au mot
             mot[i++] = caractere;

@@ -1,4 +1,21 @@
-l4z024f;
-x:=3.332+patate+4;
+with ada.text_IO use ada.text IO; 
+   l4z024f ;
+33+2;
+chiner : integer ;
+x:=largeur+3.332+patate33+4;
+p := large*2*2+2+uong*2;
 
-with ada.text I0; use ada.text I0;
+       type point is record
+          chiner : integer ;
+          bite : integer ;
+end record;
+with ada.text_IO use ada.text IO;
+x:=43224.4+4444/5+3;
+put('a');
+put('a');
+aaa
+aaa
+procedure prime is number : integer;
+begin
+put('e');
+end;

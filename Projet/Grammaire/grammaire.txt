@@ -1,0 +1,118 @@
+Fichier -> with Ada '.' Text_I0 ';' use Ada '.' Text_I0 ';' 
+procedure IDENT is DeclStar 
+begin InstrPlus end IdentInterro ';' EOF .
+
+Decl -> IdentPlusVirgule ':' TYPE '(' ':=' ExprInterro ')' ';' .
+Decl -> procedure IDENT ParamsInterro is DeclStar 
+begin InstrPlus end IdentInterro ';' .
+Decl -> function IDENT ParamsInterro return TYPE is DeclStar 
+begin InstrPlus end IdentInterro ';' .
+Decl -> type IDENT Declbis .
+Declbis -> ';' .
+Declbis -> is Declter .
+Declter-> access IDENT ';' .
+Declter -> record ChampsPlus end record ';' .
+
+Champs -> IdentPlusVirgule ':' TYPE ';' .
+
+Type -> IDENT .
+Type -> access IDENT .
+
+Params -> '(' ParamsPlusPointVirgule ')' .
+
+Param -> IdentPlusVirgule ':' ModeInterro TYPE .
+
+Mode -> IN Modbis .
+Modebis -> OUT .
+Modebis -> .
+
+Expr -> ENTIER .
+Expr -> CARACTERE .
+Expr -> true .
+Expr -> false .
+Expr -> null .
+Expr -> '(' EXPR ')' .
+Expr -> ACCES .
+Expr -> EXPR OPERATEUR EXPR .
+Expr -> not EXPR .
+Expr -> '-' EXPR .
+Expr -> new IDENT .
+Expr -> IDENT '(' ExprPlusVirgule ')' .
+Expr -> character '‘' val '(' EXPR ')' .
+
+
+Instr -> ACCES ':=' Expr ';' .
+Instr -> return ExprInterro ';' .
+Instr -> begin InstrPlus end ';' .
+Instr -> if EXPR then InstrPlus '(' Boucle1 ')' '(' Boucle2 ')' end if ';' .
+Instr -> for Ident in Reverse Expr '..' Expr 
+loop InstrPlus end loop ';' .
+Instr -> while Expr loop InstrPlus end loop ';' .
+Instr -> IDENT Instrbis .
+Instrbis -> ';' .
+Instrbis -> '(' ExprPlusVirgule ')' ';' .
+
+Operateur -> '=' .
+Operateur -> '/=' .
+Operateur -> '<' .
+Operateur -> '<=' .
+Operateur -> '>' .
+Operateur -> '>=' .
+Operateur -> '+' .
+Operateur -> '-' .
+Operateur -> '*' .
+Operateur -> '/' .
+Operateur -> rem .
+Operateur -> and Operateurbis .
+Operateurbis -> then .
+Operateurbis -> .
+Operateurbis -> or Operateurter .
+Operateurter -> else .
+Operateurter -> .
+
+Acces -> IDENT .
+Acces -> EXPR '.' IDENT .
+
+DeclStar -> DECL DeclStar .
+DeclStar -> . 
+
+InstrPlus -> INSTR InstrPlus2 .  
+InstrPlus2 -> InstrPlus .
+InstrPlus2 -> .
+
+IdentInterro -> IDENT .
+IdentInterro -> .
+
+ChampsPlus -> CHAMPS ChampsPlus2 .
+ChampsPlus2 -> ChampsPlus .
+ChampsPlus2 -> .
+
+IdentPlusVirgule -> IdentPlusVirgule2 .
+IdentPlusVirgule2 -> ',' IdentPlusVirgule .
+IdentPlusVirgule2 -> .
+
+ExprInterro -> EXPR .
+ExprInterro -> .
+
+ParamsInterro -> PARAMS .
+ParamsInterro -> .
+
+ParamsPlusPointVirgule -> ParamsPlusPointVirgule2 .
+ParamsPlusPointVirgule2 -> ';' ParamsPlusPointVirgule .
+ParamsPlusPointVirgule2 -> .
+
+ModeInterro -> MODE .
+ModeInterro -> .
+
+ExprPlusVirgule -> ExprPlusVirgule2 .
+ExprPlusVirgule2 -> ',' ExprPlusVirgule .
+ExprPlusVirgule2 -> .
+
+Boucle1 -> '(' elsif EXPR then InstrPlus ')' Boucle1 .
+Boucle1 -> .
+
+Boucle2 -> else '(' InstrPlus ')' ';' .
+Boucle2 -> .
+
+Reverse -> REVERSE .
+Reverse -> .

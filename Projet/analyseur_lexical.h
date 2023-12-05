@@ -46,3 +46,6 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur * list_token);
 
 //Creer la fonction afficher liste des tokens ligne par ligne 
 void afficher_liste_tokens(struct linked_list_token_valeur * list_token);
+
+
+int ficher(struct element_token_valeur * liste_token);

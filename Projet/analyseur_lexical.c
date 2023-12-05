@@ -22,7 +22,7 @@ const int file_token_index[] = {1, 2, 3, 4, 5, 52, 59};
 // Les déclarations de notre langage
 const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return","Ada.Text_IO"};
 const int declaration_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1,1};
-const int declaration_token_index[] = {6, 7, 8, 9, 10, 11, 12, 13, 14,52};
+const int declaration_token_index[] = {6, 7, 8, 9, 10, 11, 12, 13, 14,60};
 
 // Les modes de notre langage
 const char* mode_token[] = {"in", "out"};
@@ -297,7 +297,8 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                             char* mot_courant = malloc(sizeof(char) * (k - j + 1));
                             strncpy(mot_courant, mot + j, k - j); 
                             mot_courant[k - j] = '\0'; // Null-terminate the string
-int index = index_token_word(mot_courant);
+                            
+                            int index = index_token_word(mot_courant);
                               // si c'est : , on regarde le caractère suivant pour voir si on a pas := 
                                 if (index == 10 && mot[k] == '='){
                                    continue;

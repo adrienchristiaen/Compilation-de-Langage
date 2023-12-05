@@ -15,14 +15,14 @@ int identifiantValeur = 0;
 
 
 // Les mots clés de notre langage concernant le fichier
-const char* file_token[] = {"with", "use", "procedure", "is", ";", "put"};
+const char* file_token[] = {"with", "use", "procedure", "is", ";", "put",","};
 const int file_token_keep[] = {1, 1, 1, 1, 1, 1};
-const int file_token_index[] = {1, 2, 3, 4, 5, 52};
+const int file_token_index[] = {1, 2, 3, 4, 5, 52, 59};
 
 // Les déclarations de notre langage
-const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return"};
-const int declaration_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
-const int declaration_token_index[] = {6, 7, 8, 9, 10, 11, 12, 13, 14};
+const char* declaration_token[] = {"type", "access", "record", "end", ":", ":=", "begin", "function", "return","Ada.Text_IO"};
+const int declaration_token_keep[] = {1, 1, 1, 1, 1, 1, 1, 1, 1,1};
+const int declaration_token_index[] = {6, 7, 8, 9, 10, 11, 12, 13, 14,52};
 
 // Les modes de notre langage
 const char* mode_token[] = {"in", "out"};
@@ -196,11 +196,11 @@ int index_token_word( char* mot){
     else if (estUnEntier(mot) == 1) {
         return 54;
     }
-    int index = comparer_mot(mot, file_token, file_token_index, 6);
+    int index = comparer_mot(mot, file_token, file_token_index, 7);
     if (index != -1) {
         return index;
     }
-    index = comparer_mot(mot, declaration_token, declaration_token_index, 9);
+    index = comparer_mot(mot, declaration_token, declaration_token_index, 10);
     if (index != -1) {
         return index;
     }
@@ -278,11 +278,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                 current->valeur[0] = strdup(mot);
             } 
          
-            // si il y a un " au début du mot et à la fin du mot et pas au milieu
-            else if (estUnChar(mot) == 1) {
-                current->tokenCodageId = 56;
-                current->valeur[0] = strdup(mot);
-            }
+            
             else if (estUnBoolean(mot) == 1) {
                 current->tokenCodageId = 57;
                 current->valeur[0] = strdup(mot);
@@ -301,8 +297,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                             char* mot_courant = malloc(sizeof(char) * (k - j + 1));
                             strncpy(mot_courant, mot + j, k - j); 
                             mot_courant[k - j] = '\0'; // Null-terminate the string
-                            
-                            int index = index_token_word(mot_courant);
+int index = index_token_word(mot_courant);
                               // si c'est : , on regarde le caractère suivant pour voir si on a pas := 
                                 if (index == 10 && mot[k] == '='){
                                    continue;
@@ -326,6 +321,10 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 }
                             // si on a in on regarde si le caractère d'avant n'est pas une lettre ou le prochain caractere n'est pas une lettre
                                 if (index == 15 && (isalpha(mot[k-1])!=0 || isalpha(mot[k+1])!=0)){
+                                   continue;
+                                }
+                            // si on a or on regarde si le caractère d'avant n'est pas une lettre ou le prochain caractere n'est pas une lettre
+                                if (index == 45 && (isalpha(mot[k-1])!=0 || isalpha(mot[k+1])!=0)){
                                    continue;
                                 }
                             char *lettre = malloc(sizeof(char) );
@@ -597,16 +596,6 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                     current->next = NULL;
                                     m=k;
                             }
-                           
-                           
-                            
-                           
-                           
-                           
-                            
-
-                        
-
                    }}}
                 // on regarde si m<longueur(mot)alors on ajoute mot[m:longueur(mot)] dans la liste
                 int longueur_mot = strlen(mot);

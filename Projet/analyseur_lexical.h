@@ -49,3 +49,5 @@ void afficher_liste_tokens(struct linked_list_token_valeur * list_token);
 
 
 int ficher(struct element_token_valeur * liste_token);
+
+int longueur_liste_token(struct linked_list_token_valeur * list_token);

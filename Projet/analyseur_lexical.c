@@ -660,3 +660,14 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
     }
 
 }
+
+int longueur_liste_token(struct linked_list_token_valeur * list_token){
+    int longeur=0;
+    struct element_token_valeur *current = list_token->head;
+    current=list_token->head;
+    while (current->tokenCodageId!=0){
+        longeur++;
+        current=current->next;
+    }
+    return longeur;
+}

@@ -1,2 +1,5 @@
-with Ada.Text_IO; use Ada.Text_IO;
-put('a')
+with Ada.Text_IO ; use Ada.Text_IO ;
+procedure Patate is begin
+  put('e');
+put('a');
+end use ; 

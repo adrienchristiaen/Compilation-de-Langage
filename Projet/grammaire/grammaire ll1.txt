@@ -1,111 +1,118 @@
-Fichier -> with Ada '.' Text_I0 ';' use Ada '.' Text_I0 ';' 
-procedure IDENT is DeclStar 
-begin InstrPlus end IdentInterro ';' EOF .
+Fichier -> with Ada'.'Text_I0';'use Ada'.' Text_I0 ';' 
+procedure IDENT is DECLSTAR 
+begin INSTRPLUS end IDENTINTERRO ';' EOF .
 
-Decl -> type IDENT ';' .
-Decl-> type IDENT is access IDENT ';' .
-Decl -> type IDENT is record ChampsPlus end record ';' .
-Decl -> IdentPlusVirgule ':' TYPE '(' ':=' ExprInterro ')' ';' .
-Decl -> procedure IDENT ParamsInterro is DeclStar 
-begin InstrPlus end IdentInterro ';' .
-Decl -> function IDENT ParamsInterro return TYPE is DeclStar 
-begin InstrPlus end IdentInterro ';' .
+DECL -> IDENTPLUSVIRGULE ':' TYPE '(' ':=' EXPRINTERRO ')' ';' .
+DECL -> procedure IDENT PARAMSINTERRO is DECLSTAR
+begin INSTRPLUS end IDENTINTERRO ';' .
+DECL -> function IDENT PARAMSINTERRO return TYPE is DECLSTAR
+begin INSTRPLUS end IDENTINTERRO ';' .
+DECL -> type IDENT DECLBIS .
+DECLBIS -> ';' .
+DECLBIS -> is DECLTER .
+DECLTER-> access IDENT ';' .
+DECLTER -> record CHAMPSPLUS end record ';' .
 
-Champs -> IdentPlusVirgule ':' TYPE ';' .
+CHAMPS -> IDENTPLUSVIRGULE ':' TYPE ';' .
 
-Type -> IDENT .
-Type -> access IDENT .
+TYPE -> IDENT .
+TYPE -> access IDENT .
 
-Params -> '(' ParamsPlusPointVirgule ')' .
+PARAMS -> '(' PARAMSPLUSPOINTVIRGULE ')' .
 
-Param -> IdentPlusVirgule ':' ModeInterro TYPE .
+PARAM -> IDENTPLUSVIRGULE ':' MODEINTERRO TYPE .
 
-Mode -> IN .
-Mode -> IN OUT .
+MODE -> IN MODEBIS .
+MODEBIS -> OUT .
+MODEBIS -> .
 
-Expr -> ENTIER .
-Expr -> CARACTERE .
-Expr -> true .
-Expr -> false .
-Expr -> null .
-Expr -> '(' EXPR ')' .
-Expr -> ACCES .
-Expr -> EXPR OPERATEUR EXPR .
-Expr -> not EXPR .
-Expr -> '-' EXPR .
-Expr -> new IDENT .
-Expr -> IDENT '(' ExprPlusVirgule ')' .
-Expr -> character '‘' val '(' EXPR ')' .
+EXPR -> ENTIER .
+EXPR -> CARACTERE .
+EXPR -> true .
+EXPR -> false .
+EXPR -> null .
+EXPR -> '(' EXPR ')' .
+EXPR -> ACCES .
+EXPR -> EXPR OPERATEUR EXPR .
+EXPR -> not EXPR .
+EXPR -> '-' EXPR .
+EXPR -> new IDENT .
+EXPR -> IDENT '(' EXPRPLUSVIRGULE ')' .
+EXPR -> character '‘' val '(' EXPR ')' .
 
-Instr -> ACCES ':=' Expr ';' .
-Instr -> IDENT ';' .
-Instr -> IDENT '(' ExprPlusVirgule ')' ';' .
-Instr -> return ExprInterro ';' .
-Instr -> begin InstrPlus end ';' .
-Instr -> if EXPR then InstrPlus '(' Boucle1 ')' '(' Boucle2 ')' end if ';' .
-Instr -> for Ident in Reverse Expr '..' Expr 
-loop InstrPlus end loop ';' .
-Instr -> while Expr loop InstrPlus end loop ';' .
 
-Operateur -> '=' .
-Operateur -> '/=' .
-Operateur -> '<' .
-Operateur -> '<=' .
-Operateur -> '>' .
-Operateur -> '>=' .
-Operateur -> '+' .
-Operateur -> '-' .
-Operateur -> '*' .
-Operateur -> '/' .
-Operateur -> rem .
-Operateur -> and .
-Operateur -> and then .
-Operateur -> or .
-Operateur -> or else .
+INSTR -> ACCES ':=' EXPR ';' .
+INSTR -> return EXPRINTERRO ';' .
+INSTR -> begin INSTRPLUS end ';' .
+INSTR -> if EXPR then INSTRPLUS '(' BOUCLE1 ')' '(' BOUCLE2 ')' end if ';' .
+INSTR -> for IDENT in REVERSE EXPR '..' EXPR
+loop INSTRPLUS end loop ';' .
+INSTR -> while EXPR loop INSTRPLUS end loop ';' .
+INSTR -> IDENT INSTRBIS .
+INSTRBIS -> ';' .
+INSTRBIS -> '(' EXPRPLUSVIRGULE ')' ';' .
 
-Acces -> IDENT .
-Acces -> EXPR '.' IDENT .
+OPERATEUR -> '=' .
+OPERATEUR -> '/=' .
+OPERATEUR -> '<' .
+OPERATEUR -> '<=' .
+OPERATEUR -> '>' .
+OPERATEUR -> '>=' .
+OPERATEUR -> '+' .
+OPERATEUR -> '-' .
+OPERATEUR -> '*' .
+OPERATEUR -> '/' .
+OPERATEUR -> rem .
+OPERATEUR -> and OPERATEURBIS .
+OPERATEURBIS -> then .
+OPERATEURBIS -> .
+OPERATEURBIS -> or OPERATEURTER .
+OPERATEURTER -> else .
+OPERATEURTER -> .
 
-DeclStar -> DECL DeclStar .
-DeclStar -> . 
+ACCES -> IDENT .
+ACCES -> EXPR '.' IDENT .
 
-InstrPlus -> InstrPlus2 .  
-InstrPlus2 -> InstrPlus .
-InstrPlus2 -> .
+DECLSTAR -> DECL DECLSTAR .
+DECLSTAR -> . 
 
-IdentInterro -> IDENT .
-IdentInterro -> .
+INSTRPLUS -> INSTR INSTRPLUS2 .  
+INSTRPLUS2 -> INSTRPLUS .
+INSTRPLUS2 -> .
 
-ChampsPlus -> ChampsPlus2 .
-ChampsPlus2 -> ChampsPlus .
-ChampsPlus2 -> .
+IDENTINTERRO -> IDENT .
+IDENTINTERRO -> .
 
-IdentPlusVirgule -> IdentPlusVirgule2 .
-IdentPlusVirgule2 -> ',' IdentPlusVirgule .
-IdentPlusVirgule2 -> .
+CHAMPSPLUS -> CHAMPS CHAMPSPLUS2 .
+CHAMPSPLUS2 -> CHAMPSPLUS .
+CHAMPSPLUS2 -> .
 
-ExprInterro -> EXPR .
-ExprInterro -> .
+IDENTPLUSVIRGULE -> IDENTPLUSVIRGULE2 .
+IDENTPLUSVIRGULE2 -> ',' IDENTPLUSVIRGULE .
+IDENTPLUSVIRGULE2 -> .
 
-ParamsInterro -> PARAMS .
-ParamsInterro -> .
+EXPRINTERRO -> EXPR .
+EXPRINTERRO -> .
 
-ParamsPlusPointVirgule -> ParamsPlusPointVirgule2 .
-ParamsPlusPointVirgule2 -> ';' ParamsPlusPointVirgule .
-ParamsPlusPointVirgule2 -> .
+PARAMSINTERRO -> PARAMS .
+PARAMSINTERRO -> .
 
-ModeInterro -> MODE .
-ModeInterro -> .
+PARAMSPLUSPOINTVIRGULE -> PARAMSPLUSPOINTVIRGULE2 .
+PARAMSPLUSPOINTVIRGULE2 -> ';' PARAMSPLUSPOINTVIRGULE .
+PARAMSPLUSPOINTVIRGULE2 -> .
 
-ExprPlusVirgule -> ExprPlusVirgule2 .
-ExprPlusVirgule2 -> ',' ExprPlusVirgule .
-ExprPlusVirgule2 -> .
+MODEINTERRO -> MODE .
+MODEINTERRO -> .
 
-Boucle1 -> Boucle1 '(' elsif EXPR then InstrPlus ')' .
-Boucle1 -> .
+EXPRPLUSVIRGULE -> EXPRPLUSVIRGULE2 .
+EXPRPLUSVIRGULE2 -> ',' EXPRPLUSVIRGULE .
+EXPRPLUSVIRGULE2 -> .
 
-Boucle2 -> else '(' InstrPlus ')' ';' .
-Boucle2 -> .
+BOUCLE1 -> '(' elsif EXPR then INSTRPLUS ')' BOUCLE1 .
+BOUCLE1 -> .
 
-Reverse -> Reverse .
-Reverse -> .
+BOUCLE2 -> else '(' INSTRPLUS ')' ';' .
+BOUCLE2 -> .
+
+REVERSE -> REVERSE .
+REVERSE -> .

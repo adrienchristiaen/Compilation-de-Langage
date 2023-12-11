@@ -90,3 +90,4 @@ int main(){
     fclose(fichier_sortie_lecture);
     return valider;
 }
+

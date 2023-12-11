@@ -240,7 +240,7 @@ int index_token_word( char* mot){
 void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
     int m=0;
     int premierMot = 0; // 0 si c'est le premier mot, 1 sinon
-    int line = 0;
+    int line = 1;
     int column = 1;
     struct element_token_valeur *current = list_token->head;
     printf("Liste des tokens :\n");

@@ -59,11 +59,33 @@ int main(){
     // test la fonction litMotFichier
     litMotFichier(fichier_sortie_lecture, list_token);
     afficher_liste_tokens(list_token);
-   
+    int longueur=longueur_liste_token(list_token);
+    printf("nombre token : %d\n\n",longueur);
+
+    // création d'un tableau de taille longueur
+    struct element_token_valeur * current = malloc(sizeof(struct element_token_valeur));
+    current = list_token->head;
+    int token[longueur+1];
+    int ligne[longueur+1];
+    int colonne[longueur+1];
     
-
+    for (int i = 0; i < longueur+1; i++){
+        if(i==longueur){
+            token[i] = 0;
+            ligne[i] = 0;
+            colonne[i] = 0;
+        }
+        else{
+        token[i] = current->tokenCodageId;
+        ligne[i] = current->line;
+        colonne[i] = ((current->column)+1)/2;
+        current = current->next;}
+    }
+    // test la fonction fichier
+    int valider = Fichier(token, ligne, colonne);
+    
     // fermer le fichier ada_sans_commentaires.txt
-    fclose(fichier_sortie_lecture);
-    return 0;
-}
 
+    fclose(fichier_sortie_lecture);
+    return valider;
+}

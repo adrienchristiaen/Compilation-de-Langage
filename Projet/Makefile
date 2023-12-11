@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 NAME = main
-SRC = main.c analyseur_lexical.c
+SRC = main.c analyseur_lexical.c grammaire/fichier.c
 OBJ = $(SRC:.c=.o)
 
 .PHONY: all run clean

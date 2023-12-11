@@ -1,37 +1,51 @@
+#include "fichier.h"
 #include "../analyseur_lexical.h"
+int Fichier(int token[], int ligne[],int colonne[]){
+    // taille du tableau
+    int taille = 0;
+    while (ligne[taille] != 0) {
+        taille++;
+    }
 
-void ficher(element_token_valeur * liste_token){
-    if (liste_token.tokenCodageId != 1){
-        printf("Erreur de syntaxe ligne %d colonne %d\n", liste_token.line, liste_token.column);
+    int valider=1;
+   if (token[0]!=1){
+    printf(GREEN"Erreur : le fichier Ada ne commence pas par un with\n Ligne : %d\n Colonne : %d\n"RESET,ligne[0],colonne[0]);
+    return -1;
+   }
+   if (token[1]!=60){
+    printf(GREEN"Erreur : le nom du fichier n'est pas le bon \n Ligne : %d\n Colonne : %d\n"RESET,ligne[1],colonne[1]);
+    return -1;
+   }
+   if(token[2]!=5){
+    printf(BLUE"Erreur : ça ne contient pas de ';' \n Ligne : %d\n Colonne : %d\n"RESET,ligne[2],colonne[2]);
+    return -1;
+   }
+    if(token[3]!=2){
+     printf(GREEN"Erreur : Il faut le mot use \n Ligne : %d\n Colonne : %d\n"RESET,ligne[3],colonne[3]);
+     return -1;
+   }
+    if(token[4]!=60){
+     printf(GREEN"Erreur : le nom du fichier n'est pas le bon \n Ligne : %d\n Colonne : %d\n"RESET,ligne[4],colonne[4]);
+     return -1;
+   }
+   if(token[5]!=5){
+     printf(BLUE"Erreur :ça ne contient pas de ';' \n Ligne : %d\n Colonne : %d\n"RESET,ligne[5],colonne[5]);
+     return -1;
+   }
+   if(token[6]!=3){
+     printf(GREEN"Erreur : Il faut le mot procedure \n Ligne : %d\n Colonne : %d\n"RESET,ligne[6],colonne[6]);
+     return -1;
+   }
+    if(token[7]!=53){
+     printf(RED"Erreur : le nom de la procedure n'est pas le bon \n Ligne : %d\n Colonne : %d\n"RESET,ligne[7],colonne[7]);
+     return -1;
+     }
+    if(token[8]!=4){
+        printf(GREEN"Erreur : Il faut le mot is \n Ligne : %d\n Colonne : %d\n"RESET,ligne[8],colonne[8]);
         return -1;
     }
-    liste_token = liste_token.next;
-    if (liste_token.tokenCodageId != 52){
-        printf("Erreur de syntaxe ligne %d colonne %d\n", liste_token.line, liste_token.column);
-        return -1;
-    }
-    liste_token = liste_token.next;
-    if (liste_token.tokenCodageId != 5){
-        printf("Erreur de syntaxe ligne %d colonne %d\n", liste_token.line, liste_token.column);
-        return -1;
-    }
-    liste_token = liste_token.next;
-    if (liste_token.tokenCodageId != 2){
-        printf("Erreur de syntaxe ligne %d colonne %d\n", liste_token.line, liste_token.column);
-        return -1;
-    }
-    liste_token = liste_token.next;
-    if (liste_token.tokenCodageId != 52){
-        printf("Erreur de syntaxe ligne %d colonne %d\n", liste_token.line, liste_token.column);
-        return -1;
-    }
-    liste_token = liste_token.next;
-    if (liste_token.tokenCodageId != 5){
-        printf("Erreur de syntaxe ligne %d colonne %d\n", liste_token.line, liste_token.column);
-        return -1;
-    }
-    return 1;
 
-
+   
+   
+   return valider;
 }
-

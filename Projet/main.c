@@ -1,4 +1,5 @@
 #include "analyseur_lexical.h"
+#include "grammaire/fichier.h"
 
 
 

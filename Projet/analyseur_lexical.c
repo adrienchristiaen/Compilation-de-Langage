@@ -69,10 +69,14 @@ void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
     while ((caractereActuel = fgetc(fichier_entree)) != EOF) {
         if (!dans_commentaire && caractereActuel == '-' && caracterePrecedent == '-') {
             dans_commentaire = true;
-        } else if (!dans_commentaire && caracterePrecedent == '-' && caractereActuel != '-') {
-            fputc(caracterePrecedent, fichier_sortie);
+        } else if (dans_commentaire && caractereActuel == '\n') {
+            dans_commentaire = false;
         }
 
+
+        if (!dans_commentaire) {
+            fputc(caractereActuel, fichier_sortie);
+        }
         caracterePrecedent = caractereActuel;
     }
 }

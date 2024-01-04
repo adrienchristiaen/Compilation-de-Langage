@@ -16,7 +16,7 @@ int Exprplusvirgule(struct element_token_valeur * element_token){
         }
         else if (element_token->tokenCodageId == 59 && a%2 == 1){
             a++;
-            *element_token = *element_token->next;
+            element_token = element_token->next;
         }
         else {
             printf(GREEN"Erreur : il faut un ident, un (, un character, un entier, un caractere, un true, un false, un null, un not, un - ou un , \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);

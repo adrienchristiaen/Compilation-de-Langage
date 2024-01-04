@@ -1,3 +1,4 @@
+#pragma once
 #include "header.h"
 #define MAX_LENGTH 1000
 struct element_token_valeur {

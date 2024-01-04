@@ -30,9 +30,9 @@ const int mode_token_keep[] = {1, 1};
 const int mode_token_index[] = {15, 16};
 
 // Les expressions de notre langage
-const char* expression_token[] = { "true", "false", "null", "(", ")", "not", "new","\'"};
+const char* expression_token[] = { "true", "false", "null", "(", ")", "not", "new","\'","val"};
 const int expression_token_keep[] = {1, 1, 1, 1, 1, 1, 1,1}; 
-const int expression_token_index[] = {17, 18, 19, 20, 21, 22, 23,58};
+const int expression_token_index[] = {17, 18, 19, 20, 21, 22, 23,58,62};
 
 // Les instructions de notre langage
 const char* instruction_token[] = { "if", "then", "elsif", "else", "for", "reverse", "loop", "while"};
@@ -55,9 +55,9 @@ const int identifier_token_keep[] = {1} ;
 const int identifier_token_index[] = {53} ;
 
 // Les valeurs littérales de notre langage
-const char* literal_token[] = { "integer_literal", "float_literal", "char_literal", "boolean_literal"} ;
+const char* literal_token[] = { "integer_literal", "float_literal", "char_literal", "boolean_literal_true", "boolean_literal_false"} ;
 const int literal_token_keep[] = {1 , 1, 1, 1, 1} ;
-const int literal_token_index[] = {54, 55, 56, 57} ;
+const int literal_token_index[] = {54, 55, 56, 57, 61} ;
 
 
 
@@ -208,7 +208,7 @@ int index_token_word( char* mot){
     if (index != -1) {
         return index;
     }
-    index = comparer_mot(mot, expression_token, expression_token_index, 8);
+    index = comparer_mot(mot, expression_token, expression_token_index, 9);
     if (index != -1) {
         return index;
     }
@@ -228,7 +228,7 @@ int index_token_word( char* mot){
     if (index != -1) {
         return index;
     }
-    index = comparer_mot(mot, literal_token, literal_token_index, 4);
+    index = comparer_mot(mot, literal_token, literal_token_index, 5);
     if (index != -1) {
         return index;
     }

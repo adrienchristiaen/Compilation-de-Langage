@@ -14,6 +14,4 @@
 #define RESET "\033[0m"
 
 // fonction fichier qui prend en entrée un tableau d'entier et renvoie un 1 si ça marche et -1 sinon
-int Fichier(struct linked_list_token_valeur * list_token);
-
 int Fichier(struct linked_list_token_valeur * list_token, struct Node * root);

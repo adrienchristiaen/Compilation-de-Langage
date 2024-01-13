@@ -1,3 +1,19 @@
+#include "analyseur_lexical.h"
+#include "grammaire/fichier.h"
+
+
+
+
+
+// ouvrir le fichier ada_test.txt
+FILE* fichier = NULL;
+// creer le fichier vide ada_sans_commentaires.txt
+FILE* fichier_sortie = NULL;
+// creer le fichier vide ada_sans_commentaires.txt pour lire
+FILE* fichier_sortie_lecture = NULL;
+
+
+
 int main(){
      char * mot = "333.33";
     int a;

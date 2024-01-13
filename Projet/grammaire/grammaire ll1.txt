@@ -4,7 +4,7 @@ begin INSTRPLUS end IDENTINTERRO ';' EOF .
 
 DECL -> IDENTPLUSVIRGULE ':' TYPE SUITE .
 SUITE -> .
-SUITE -> '(' ':=' EXPR ')' ';' .
+SUITE ->  ':=' EXPR  ';' .
 DECL -> procedure IDENT PARAMSINTERRO is DECLSTAR
 begin INSTRPLUS end IDENTINTERRO ';' .
 DECL -> function IDENT PARAMSINTERRO return TYPE is DECLSTAR
@@ -52,7 +52,7 @@ EXPRRESTANT -> .
 
 INSTR -> return EXPRINTERRO ';' .
 INSTR -> begin INSTRPLUS end ';' .
-INSTR -> if EXPR then INSTRPLUS '(' BOUCLE1 ')' '(' BOUCLE2 ')' end if ';' .
+INSTR -> if EXPR then INSTRPLUS  BOUCLE1  BOUCLE2  end if ';' .
 INSTR -> for IDENT in REVERSE EXPR '..' EXPR
 loop INSTRPLUS end loop ';' .
 INSTR -> while EXPR loop INSTRPLUS end loop ';' .
@@ -114,8 +114,8 @@ EXPRPLUSVIRGULE -> EXPR EXPRVIRGULE .
 
 EXPRVIRGULE -> ',' EXPRPLUSVIRGULE .
 EXPRVIRGULE -> .
-BOUCLE1 -> '(' elsif EXPR then INSTRPLUS ')' BOUCLE1 .
+BOUCLE1 ->  elsif EXPR then INSTRPLUS BOUCLE1 .
 BOUCLE1 -> .
 
-BOUCLE2 -> else '(' INSTRPLUS ')' ';' .
+BOUCLE2 -> else  INSTRPLUS  ';' .
 BOUCLE2 -> .

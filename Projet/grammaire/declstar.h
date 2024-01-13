@@ -14,4 +14,4 @@
 #define RESET "\033[0m"
 
 
-int Declstar(struct element_token_valeur * element_token);
+int Declstar(struct element_token_valeur ** element_token);

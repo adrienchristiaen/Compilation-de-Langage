@@ -15,4 +15,4 @@
 #define RESET "\033[0m"
 
 
-int Champs(struct element_token_valeur * element_token);
+int Champs(struct element_token_valeur ** element_token);

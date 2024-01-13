@@ -14,4 +14,4 @@
 #define RESET "\033[0m"
 
 
-int Identpoint(struct element_token_valeur * element_token);
+int Identpoint(struct element_token_valeur ** element_token);

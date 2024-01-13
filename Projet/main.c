@@ -1,18 +1,3 @@
-#include "analyseur_lexical.h"
-#include "grammaire/fichier.h"
-
-
-
-
-// ouvrir le fichier ada_test.txt
-FILE* fichier = NULL;
-// creer le fichier vide ada_sans_commentaires.txt
-FILE* fichier_sortie = NULL;
-// creer le fichier vide ada_sans_commentaires.txt pour lire
-FILE* fichier_sortie_lecture = NULL;
-
-
-
 int main(){
      char * mot = "333.33";
     int a;
@@ -48,13 +33,38 @@ int main(){
     // test la fonction litMotFichier
     litMotFichier(fichier_sortie_lecture, list_token);
     afficher_liste_tokens(list_token);
-    int valider = Fichier (list_token);
+
+    struct Node* root = createNode("FICHIER", NULL);
     
+    int valider = Fichier (list_token, root);
+    if (valider == -1 ){
+        printf("le fichier n'est pas valide\n");
+    }
+
  
     
     // fermer le fichier ada_sans_commentaires.txt
 
     fclose(fichier_sortie_lecture);
+
+    // Créer une surface Cairo
+    cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 5000,2000);
+    cairo_t* cr = cairo_create(surface);
+
+    // Configurer la police
+    cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+    cairo_set_font_size(cr, 20.0);
+
+    // Dessiner l'arbre abstrait
+    drawTree(root, cr, 200, 50, 100);
+
+    // Sauvegarder l'image dans un fichier PNG
+    cairo_surface_write_to_png(surface, "tree.png");
+
+    // Libérer la mémoire allouée pour l'arbre abstrait et la surface Cairo
+   
+    cairo_destroy(cr);
+    cairo_surface_destroy(surface);
     return valider;
     
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "header.h"
+#include <cairo.h>
+#define MAX_WORD_SIZE 20
 #define MAX_LENGTH 1000
 struct element_token_valeur {
     int tokenCodageId;
@@ -51,4 +53,13 @@ void afficher_liste_tokens(struct linked_list_token_valeur * list_token);
 // retourne la longueur de la liste
 int longueur_liste_token(struct linked_list_token_valeur * list_token);
 
+// Structure pour représenter un nœud de l'arbre abstrait
+ struct Node {
+    char word[MAX_WORD_SIZE];
+    struct Node** children;
+    struct Node* parent;
+    size_t numChildren;
+};
+struct Node * createNode(const char* word, struct Node* parent);
 
+void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level);

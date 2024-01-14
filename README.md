@@ -1,6 +1,8 @@
 # Projet Compilation - Langage Ada
 
-Ce projet est une application Ada qui nécessite la bibliothèque Cairo. Assurez-vous de suivre les instructions ci-dessous pour compiler et exécuter le programme avec succès.
+Ce projet est une application Ada qui nécessite la bibliothèque Cairo afin d'afficher l'arbre. Assurez-vous de suivre les instructions ci-dessous pour compiler et exécuter le programme avec succès.
+
+De plus, afin de visualiser l'arbre, il faut que votre éditeur de code ait un color thème clair.
 
 ## Prérequis
 

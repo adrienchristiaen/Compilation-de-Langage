@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,4 +15,4 @@
 #define RESET "\033[0m"
 
 
-int Type(struct element_token_valeur ** element_token);
+int Expr(struct element_token_valeur ** element_token);

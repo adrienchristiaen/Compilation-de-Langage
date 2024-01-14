@@ -4,7 +4,6 @@ Ce projet est une application Ada qui nécessite la bibliothèque Cairo. Assurez
 
 ## Prérequis
 
-- GNAT (le compilateur Ada)
 - Cairo (la bibliothèque de rendu graphique)
 
 ## Compilation

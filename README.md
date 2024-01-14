@@ -10,9 +10,13 @@ Ce projet est une application Ada qui nécessite la bibliothèque Cairo. Assurez
 ## Compilation
 
 Avant de compiler le projet, assurez-vous d'avoir installé cairo. 
+
 Sur macOS : brew install cairo 
+
             brew install pkg-config
+
 Sur linux : apt install cairo 
+
             apt install pkg-config
 
 Pour trouver votre chemin après installation de cairo : pkg-config --libs cairo

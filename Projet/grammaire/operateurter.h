@@ -13,4 +13,4 @@
 #define RESET "\033[0m"
 
 // fonction fichier qui prend en entrée un tableau d'entier et renvoie un 1 si ça marche et -1 sinon
-int Operateurter(struct element_token_valeur ** element_token);
+int Operateurter(struct element_token_valeur ** element_token, struct Node * root);

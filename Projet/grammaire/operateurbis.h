@@ -12,4 +12,4 @@
 #define BLUE  "\033[1;34m"
 #define RESET "\033[0m"
 
-int Operateurbis(struct element_token_valeur ** element_token);
+int Operateurbis(struct element_token_valeur ** element_token, struct Node * root);

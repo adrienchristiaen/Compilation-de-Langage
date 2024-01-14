@@ -1,6 +1,8 @@
 #include "fichier.h"
 #include "decl.h"
-int Declstar(struct element_token_valeur ** element_token){
+int Declstar(struct element_token_valeur ** element_token, struct Node * root){
+    
+    root->children = (struct Node**)malloc(2 * sizeof(struct Node*));
     int valider =1;
 
     // si on a pas de type, fonction, procédure, ident ou begin alors on return -1
@@ -10,15 +12,21 @@ int Declstar(struct element_token_valeur ** element_token){
     }
     // Declstar -> epsilon si on a un begin
     else if ((*element_token)->tokenCodageId == 12){
+        root->numChildren = 0;
         return valider;
     } 
     // Declstar -> DECL Declstar
     else {
-        valider = Decl(element_token);
+        root->children[0] = createNode("DECL", root);
+        
+        valider = Decl(element_token,root->children[0]);
         if (valider == -1){
             return -1;
         }
-        return Declstar(element_token);
+        
+        root->children[1] = createNode("DECLSTAR", root);
+        root->numChildren = 2;
+        return Declstar(element_token, root->children[1]);
         
     }
  

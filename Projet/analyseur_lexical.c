@@ -685,13 +685,18 @@ int longueur_liste_token(struct linked_list_token_valeur * list_token){
 // Fonction pour créer un nouveau nœud
 struct Node* createNode(const char* word, struct Node* parent) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    strcpy(newNode->word, word);
+    
+    // Copy at most sizeof(newNode->word) - 1 characters from word to newNode->word
+    strncpy(newNode->word, word, sizeof(newNode->word) - 1);
+    
+    // Ensure null-termination of newNode->word
+    newNode->word[sizeof(newNode->word) - 1] = '\0';
+
     newNode->parent = parent;
     newNode->numChildren = 0;
     newNode->children = NULL;
     return newNode;
 }
-
 // Fonction pour dessiner un arbre abstrait à l'aide de la bibliothèque Cairo
 void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) {
     if (root != NULL) {
@@ -701,15 +706,15 @@ void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) 
         double text_width = extents.width;
         double text_height = extents.height;
 
-        double parentX = x - text_width / 2 + 2000; 
+        double parentX = x - text_width / 2 + 10000; 
         double parentY = y - text_height / 2;
 
         cairo_move_to(cr, parentX, parentY);
         cairo_show_text(cr, root->word);
 
         for (size_t i = 0; i < root->numChildren; ++i) {
-            double childX = x + (i - (root->numChildren - 1) / 2.0) * level + 2000; 
-            double childY = y + 50;  
+            double childX = x + (i - (root->numChildren - 1) / 2.0) * level + 10000; 
+            double childY = y + 500;  
 
       
             cairo_move_to(cr, parentX + text_width / 2, parentY + text_height);
@@ -721,10 +726,10 @@ void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) 
         for (size_t i = 0; i < root->numChildren; ++i) {
             
             double childX = x + (i - (root->numChildren - 1) / 2.0) * level ; 
-            double childY = y + 100;  
+            double childY = y + 700;  
 
            
-            drawTree(root->children[i], cr, childX, childY, level / 2);
+            drawTree(root->children[i], cr, childX, childY, level/2);
         }
     }
 }

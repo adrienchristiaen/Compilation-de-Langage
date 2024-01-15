@@ -60,7 +60,6 @@ const int literal_token_keep[] = {1 , 1, 1, 1, 1} ;
 const int literal_token_index[] = {54, 55, 56, 57, 61} ;
 
 
-
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
     int caractereActuel;
     int caracterePrecedent = EOF; // (End Of File)

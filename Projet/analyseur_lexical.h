@@ -3,6 +3,8 @@
 #include <cairo.h>
 #define MAX_WORD_SIZE 20
 #define MAX_LENGTH 1000
+
+//On utilise une liste chainée pour stocker les tokens et leurs valeurs
 struct element_token_valeur {
     int tokenCodageId;
     // la valeur est nul si c'est pas un string ou un entier ou une variable

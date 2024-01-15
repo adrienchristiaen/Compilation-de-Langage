@@ -1,4 +1,3 @@
-Makefile : 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I/opt/homebrew/opt/ncurses/include -I/opt/homebrew/Cellar/cairo/1.18.0/include/cairo
 NAME = main

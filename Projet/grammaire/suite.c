@@ -1,40 +1,32 @@
 #include "fichier.h"
 #include "expr.h"
 
-int Suite(struct element_token_valeur * element_token){
+int Suite(struct element_token_valeur ** element_token, struct Node * root){
+    root->children = (struct Node**)malloc(2 * sizeof(struct Node*));
     int valider =1;
 
     
     //SUITE ->  .
 
-    if (element_token->tokenCodageId!=20){
-        return valider;
-    }
-    // SUITE -> '(' ':=' EXPR ')' ';' .  
-
-    element_token = element_token->next;
+    // SUITE -> ':=' EXPR  ';' .  
     // :=
-    if (element_token->tokenCodageId != 11){
-        printf(GREEN"Erreur : il faut un ':=' \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
-        return -1;
-    }
-    element_token = element_token->next;
+    if ((*element_token)->tokenCodageId == 11){
+    root->children[0] = createNode(":=", root);
+        (*element_token) = (*element_token)->next;
     // EXPR
-    valider = Expr(element_token);
+    root->children[1] = createNode("EXPR", root);
+    valider = Expr(element_token, root->children[1]);
     if (valider == -1){
         return -1;
     }
-    // )
-    if (element_token->tokenCodageId != 21){
-        printf(GREEN"Erreur : il faut un ')' \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
-        return -1;
+    (*element_token) = (*element_token)->next;
+    if((*element_token)->tokenCodageId == 5){
+        root->children[2] = createNode(";", root);
+        (*element_token) = (*element_token)->next;
+        root->numChildren = 3;
+        return valider;
     }
-    element_token = element_token->next;
-    // ;
-    if (element_token->tokenCodageId != 5){
-        printf(GREEN"Erreur : il faut un ';' \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
-        return -1;
     }
-    
     return valider;
-}
+    
+    }

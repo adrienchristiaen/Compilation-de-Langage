@@ -15,4 +15,4 @@
 #define RESET "\033[0m"
 
 
-int Declbis(struct element_token_valeur * element_token);
+int Declbis(struct element_token_valeur ** element_token, struct Node * root );

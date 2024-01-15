@@ -1,14 +1,18 @@
 #pragma once
 #include "header.h"
 #include <cairo.h>
-#define MAX_WORD_SIZE 20
+
 #define MAX_LENGTH 1000
+<<<<<<< HEAD
 
 //On utilise une liste chainée pour stocker les tokens et leurs valeurs
+=======
+#define MAX_WORD_SIZE 20
+>>>>>>> refs/remotes/origin/master
 struct element_token_valeur {
     int tokenCodageId;
     // la valeur est nul si c'est pas un string ou un entier ou une variable
-    char * valeur[MAX_LENGTH];
+    char * valeur[MAX_LENGTH]; // valeur[0] = valeur du token
     int line;
     int column;
     struct element_token_valeur * next;
@@ -16,6 +20,14 @@ struct element_token_valeur {
 
 struct linked_list_token_valeur {
     struct element_token_valeur * head;
+};
+
+// Structure pour représenter un nœud de l'arbre abstrait
+ struct Node {
+    char word[MAX_WORD_SIZE];
+    struct Node** children;
+    struct Node* parent;
+    size_t numChildren;
 };
 
 int codage_token(ada_token_type tokenName);
@@ -55,13 +67,6 @@ void afficher_liste_tokens(struct linked_list_token_valeur * list_token);
 // retourne la longueur de la liste
 int longueur_liste_token(struct linked_list_token_valeur * list_token);
 
-// Structure pour représenter un nœud de l'arbre abstrait
- struct Node {
-    char word[MAX_WORD_SIZE];
-    struct Node** children;
-    struct Node* parent;
-    size_t numChildren;
-};
 struct Node * createNode(const char* word, struct Node* parent);
 
 void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level);

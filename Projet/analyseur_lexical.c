@@ -1,5 +1,6 @@
 #include "analyseur_lexical.h"
 
+
 // creation de la variable qui va contenir le caractere actuel en ascii
 int caractereActuel=0;
 // endroit du carectere sur le mot qu'on lit
@@ -319,6 +320,10 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 if (index == 15 && mot[k] == 't'){
                                    continue;
                                 }
+                            // on fait la même chose pour val et on regarde si la prochaine lettre est différent de (
+                                if (index == 62 && mot[k] != '('){
+                                   continue;
+                                }
                             // si on a in on regarde si le caractère d'avant n'est pas une lettre ou le prochain caractere n'est pas une lettre
                                 if (index == 15 && (isalpha(mot[k-1])!=0 || isalpha(mot[k+1])!=0)){
                                    continue;
@@ -549,6 +554,12 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                                 current->valeur[0] = strdup(mot_courant);
                                 
                             }
+                            // mot ->     0 j k longueur   j -> 0 à longeur -1 et k de j+1 à longeur 
+
+                            // mot ->  53   ->  mot[j+1,k] -> id !=53 => mot[0,j] est un 53
+                            // si k == longueur alors 
+                            // si k==longeur et j == 0 alors mot = 53
+                            // si k==longeur et j != 0 alors mot[j+1,k] est un 53
                             else if (index==53 && estUnChar(mot_courant)==1 && stringValeur==1 && j!=0 && k!=longueur){
                                 if (premierMot == 0){
                                 // on créer motPremier ajoute mot[0:j-1] dans la liste
@@ -669,17 +680,22 @@ int longueur_liste_token(struct linked_list_token_valeur * list_token){
         current=current->next;
     }
     return longeur;
-
+}
 // Fonction pour créer un nouveau nœud
 struct Node* createNode(const char* word, struct Node* parent) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    strcpy(newNode->word, word);
+    
+    // Copy at most sizeof(newNode->word) - 1 characters from word to newNode->word
+    strncpy(newNode->word, word, sizeof(newNode->word) - 1);
+    
+    // Ensure null-termination of newNode->word
+    newNode->word[sizeof(newNode->word) - 1] = '\0';
+
     newNode->parent = parent;
     newNode->numChildren = 0;
     newNode->children = NULL;
     return newNode;
 }
-
 // Fonction pour dessiner un arbre abstrait à l'aide de la bibliothèque Cairo
 void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) {
     if (root != NULL) {
@@ -689,15 +705,15 @@ void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) 
         double text_width = extents.width;
         double text_height = extents.height;
 
-        double parentX = x - text_width / 2 + 2000; 
+        double parentX = x - text_width / 2 + 10000; 
         double parentY = y - text_height / 2;
 
         cairo_move_to(cr, parentX, parentY);
         cairo_show_text(cr, root->word);
 
         for (size_t i = 0; i < root->numChildren; ++i) {
-            double childX = x + (i - (root->numChildren - 1) / 2.0) * level + 2000; 
-            double childY = y + 50;  
+            double childX = x + (i - (root->numChildren - 1) / 2.0) * level + 10000; 
+            double childY = y + 500;  
 
       
             cairo_move_to(cr, parentX + text_width / 2, parentY + text_height);
@@ -709,11 +725,10 @@ void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) 
         for (size_t i = 0; i < root->numChildren; ++i) {
             
             double childX = x + (i - (root->numChildren - 1) / 2.0) * level ; 
-            double childY = y + 100;  
+            double childY = y + 700;  
 
            
-            drawTree(root->children[i], cr, childX, childY, level / 2);
+            drawTree(root->children[i], cr, childX, childY, level/2);
         }
-    }
     }
 }

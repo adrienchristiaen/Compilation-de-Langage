@@ -2,6 +2,7 @@
 #include "declstar.h"
 #include "instrplus.h"
 int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
+
   root->children = (struct Node**)malloc(16 * sizeof(struct Node*));
    
   int valider = 1; // vaut 1 si le fichier Ada est valide et -1 sinon
@@ -31,7 +32,6 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
   }
   root->children[2] = createNode(";", root);
 
- 
   // Use
   element_token = element_token->next;
   if(element_token->tokenCodageId!=2){
@@ -80,15 +80,16 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[8] = createNode("is", root);
-
+  
   // On appelle la fonction Declstar
   element_token = element_token->next;
   root->children[9] = createNode("DECLSTAR", root);
-  valider = Declstar(&element_token);
+  valider = Declstar(&element_token, root->children[9]);
   if (valider==-1){
     return -1;
   }
   // begin
+  
   if (element_token->tokenCodageId !=12){
     printf(GREEN"Erreur : Il faut le mot begin \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
     return -1;
@@ -97,12 +98,12 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
   (element_token) = (element_token)->next;
 
   root->children[11] = createNode("INSTRPLUS", root);
+  
   // On appelle la fonction Instrplus
-  valider = Instrplus(&element_token);
+  valider = Instrplus(&element_token, root->children[11]);
   if (valider==-1){
     return -1;
   }
-
 
   // end
   if (element_token->tokenCodageId !=9){
@@ -112,14 +113,17 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
   root->children[12] = createNode("end", root);
 
   element_token = element_token->next;
+
     // identinterro
   if (element_token->tokenCodageId == 53){
     root->children[13] = createNode(element_token->valeur[0], root);
     element_token = element_token->next;
+
     if (element_token->tokenCodageId != 5){
       printf(BLUE"Erreur : Il faut le mot ; \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
       return -1;
     }
+
     root->children[14] = createNode(";", root);
     root->children[15] = createNode("EOF", root);
     root->numChildren = 16;
@@ -134,6 +138,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
   }
 
   element_token = element_token->next;
+
   // fin du fichier
   if (element_token->tokenCodageId !=0){
     printf(GREEN"Erreur : Le fichier doit se terminer\n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);

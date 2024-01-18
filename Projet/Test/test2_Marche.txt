@@ -5,7 +5,7 @@ procedure Mon_Programme is
    procedure Ma_Procedure (Param1 : in Integer; Param2 : Boolean) is
    begin
 
-    bite := 42;
+    test := 42;
    end MaProcedure ;
    function Ma_Fonction (Param : Character) return Integer is
    begin

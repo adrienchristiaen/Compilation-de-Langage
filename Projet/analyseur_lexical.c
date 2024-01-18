@@ -756,7 +756,7 @@ void drawTree(struct Node* root, cairo_t* cr, double x, double y, double level) 
             double childY = y + 700;  
 
            
-            drawTree(root->children[i], cr, childX, childY, level/2);
+            drawTree(root->children[i], cr, childX, childY, level/1.1);
         }
     }
 }

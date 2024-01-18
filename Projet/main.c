@@ -15,13 +15,13 @@ FILE* fichier_sortie_lecture = NULL;
 
 
 int main(){
-     char * mot = "333.33";
+    char * mot = "33";
     int a;
     int index= index_token_word(mot);
-    char * motss = "usePatateis";
+    char * motss = "with";
     int index2= index_token_word(motss);
-    printf("333.33 : %d\n", index);
-    printf("usePatateis : %d\n", index2);
+    printf("33 : %d\n", index);
+    printf("with : %d\n", index2);
     a=estUnFloat(mot);
     printf("%d\n", a);
 
@@ -69,7 +69,7 @@ int main(){
     fclose(fichier_sortie_lecture);
 
     // Créer une surface Cairo
-    cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 30000,4000);
+    cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 30000, 8000);
     cairo_t* cr = cairo_create(surface);
 
     // Configurer la police
@@ -77,7 +77,7 @@ int main(){
     cairo_set_font_size(cr, 20.0);
 
     // Dessiner l'arbre abstrait
-    drawTree(root, cr, 400, 50, 1000);
+    drawTree(root, cr, 400, 200, 1000);
 
     // Sauvegarder l'image dans un fichier PNG
     cairo_surface_write_to_png(surface, "tree.png");

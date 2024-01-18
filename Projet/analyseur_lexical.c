@@ -63,21 +63,27 @@ const int literal_token_index[] = {54, 55, 56, 57, 61} ;
 
 void supprimer_commentaires(FILE* fichier_entree, FILE* fichier_sortie) {
     int caractereActuel;
-    int caracterePrecedent = EOF; // (End Of File)
-    bool dans_commentaire = false; //drapeau pour savoir si on est dans un commentaire ou pas 
+    bool dans_commentaire = false;
 
     while ((caractereActuel = fgetc(fichier_entree)) != EOF) {
-        if (!dans_commentaire && caractereActuel == '-' && caracterePrecedent == '-') {
-            dans_commentaire = true;
+        if (!dans_commentaire && caractereActuel == '-') {
+            int caractereSuivant = fgetc(fichier_entree);
+            if (caractereSuivant == '-') {
+                // Si on rencontre '--', on passe en mode commentaire
+                dans_commentaire = true;
+            } else {
+                // Si le caractère suivant n'est pas '-', remettre en place
+                ungetc(caractereSuivant, fichier_entree);
+            }
         } else if (dans_commentaire && caractereActuel == '\n') {
+            // Si on est dans un commentaire et on atteint la fin de la ligne, sortir du mode commentaire
             dans_commentaire = false;
         }
 
-
+        // Si on n'est pas dans un commentaire, écrire le caractère dans le fichier de sortie
         if (!dans_commentaire) {
             fputc(caractereActuel, fichier_sortie);
         }
-        caracterePrecedent = caractereActuel;
     }
 }
 
@@ -170,7 +176,7 @@ void afficher_liste_tokens(struct linked_list_token_valeur *list_token) {
                 if (current->valeur[i] == NULL) {
                     break;
                 }
-                printf("(%d,%s) ", current->tokenCodageId, current->valeur[i]);
+                printf("(%d,%s) \n ", current->tokenCodageId, current->valeur[i]);
                 printf("line : %d\n", current->line);
                 printf("column : %d\n", current->column);
             }
@@ -243,7 +249,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
     int line = 1;
     int column = 1;
     struct element_token_valeur *current = list_token->head;
-    printf("Liste des tokens :\n");
+   
 
     if (fichier == NULL) {
         fprintf(stderr, "Invalid file pointer\n");
@@ -336,7 +342,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                             lettre[0] = mot[k];
                             // si c'est un entier, on regarde les prochains caractères pour voir si c'est un float
                                 if(index == 54){
-                                 printf("mot courant : %s\n", mot_courant);
+                                 
                                 if(lettre[0] == '.'){
                                     int n = k;
                                  while (isdigit(mot[n]) != 0){
@@ -643,7 +649,7 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
                 
             
             // print le token id
-            printf("token id : %d\n", current->tokenCodageId);
+       
             // Mettre à jour les autres informations (ligne, colonne, etc.)
             current->line = line;
             current->column = column;
@@ -662,12 +668,34 @@ void litMotFichier(FILE* fichier, struct linked_list_token_valeur *list_token) {
         
             current->next = NULL;
           
-            printf("line : %d\n", line);}
+            }
         } else {
             // Ajouter le caractère au mot
             mot[i++] = caractere;
         }
     }
+    line = 1;
+struct element_token_valeur *current2 = list_token->head;
+int currentColumn = 1;  // Initialisez la colonne à 1 pour la première ligne
+
+while (current2 != NULL) {
+    if (current2->next->tokenCodageId == 0) {
+        break; // Fin de la liste
+    }
+
+    if (current2->next->line != current2->line) {
+        // Si la ligne change, réinitialiser la colonne à 1
+        currentColumn = 1;
+    } else {
+        // Si la ligne reste la même, incrémenter la colonne
+        currentColumn++;
+    }
+
+    current2->next->column = currentColumn;
+    current2 = current2->next;
+}
+
+
 
 }
 

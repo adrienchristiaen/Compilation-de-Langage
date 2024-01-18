@@ -93,17 +93,18 @@ int Exprsimple(struct element_token_valeur ** element_token, struct Node * root)
         return 1;
     }
     // EXPRSIMPLE -> IDENT EXPRACCES
+
+
     if ((*element_token)->tokenCodageId == 53){
+
         root->children[0] = createNode("ident", root);
         (*element_token) = (*element_token)->next;
         root->children[1] = createNode("EXPRACCES", root);
         // Appel de la fonction Expracces
-        int valider = Expracces(element_token,root->children[1]);
-        if (valider == -1){
-            return -1;
-        }
+
         root->numChildren = 2;
-        return 1;
+        return Expracces(element_token,root->children[1]);
+        
     }
     // EXPRSIMPLE -> character ‘ val ( EXPR )
     if ((*element_token)->tokenCodageId == 47){

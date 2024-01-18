@@ -10,6 +10,7 @@ int Expr(struct element_token_valeur ** element_token, struct Node * root){
             printf(GREEN"Erreur : il faut un ident, un (, un character, un entier, un caractere, un true, un false, un null, un not ou un - \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
             return -1;
     }
+
     root->children[0] = createNode("EXPRSIMPLE", root);
     // EXPR -> EXPRSIMPLE EXPRRESTANT .
     // Appel de la fonction Exprsimple

@@ -5,6 +5,7 @@
 #include "declbis.h"
 #include "type.h"
 #include "suite.h"
+#include "identinterro.h"
 
 int Decl(struct element_token_valeur ** element_token, struct Node * root){
     root->children = (struct Node**)malloc(40 * sizeof(struct Node*));
@@ -63,23 +64,20 @@ int Decl(struct element_token_valeur ** element_token, struct Node * root){
         }
         root->children[7] = createNode("end", root);
         (*element_token) = (*element_token)->next;
-        // ident ou ;
+        // identerro
+
+        root->children[8] = createNode("IDENTINTERRO", root);
+        valider = Identinterro(element_token,root->children[8]);
+        if (valider==-1){
+            return -1;
+        }
+        // ;
+        if ((*element_token)->tokenCodageId!=5){
+            printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
+            return -1;
+        }
         
-        if ((*element_token)->tokenCodageId==53 ){
-            root->children[8] = createNode((*element_token)->valeur[0], root);
-            (*element_token) = (*element_token)->next;
-            root->children[9] = createNode(";", root);
-            if ((*element_token)->tokenCodageId!=5){
-                printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
-                return -1;
-            }
-            root->numChildren = 10;
-        }
-        else if ((*element_token)->tokenCodageId==5){
-            root->children[8] = createNode(";", root);
-            root->numChildren = 9;
-            return 1;
-        }
+       
        
         (*element_token) = (*element_token)->next;
     }
@@ -123,7 +121,6 @@ int Decl(struct element_token_valeur ** element_token, struct Node * root){
         if (valider==-1){
             return -1;
         }
-
         // begin
         if ((*element_token)->tokenCodageId!=12){
             printf(GREEN"Erreur : il faut le mot begin \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
@@ -132,10 +129,13 @@ int Decl(struct element_token_valeur ** element_token, struct Node * root){
         root->children[7] = createNode("begin", root);
         (*element_token) = (*element_token)->next;
         root->children[8] = createNode("INSTRPLUS", root);
+
         valider = Instrplus(element_token,root->children[8]);
         if (valider==-1){
             return -1;
         }
+
+
 
         // end
         if ((*element_token)->tokenCodageId!=9){
@@ -144,22 +144,17 @@ int Decl(struct element_token_valeur ** element_token, struct Node * root){
         }
         root->children[9] = createNode("end", root);
         (*element_token) = (*element_token)->next;
-        // ident ou ;
-        if ((*element_token)->tokenCodageId==53 ){
-            root->children[10] = createNode((*element_token)->valeur[0], root);
-            (*element_token) = (*element_token)->next;
-
-            if ((*element_token)->tokenCodageId!=5){
-                printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
-                return -1;
-            }
-            root->children[11] = createNode(";", root);
-            root->numChildren = 12;
+        // identerro
+        root->children[10] = createNode("IDENTINTERRO", root);
+        root->numChildren = 11;
+        valider = Identinterro(element_token,root->children[10]);
+        if (valider==-1){
+            return -1;
         }
-        else if ((*element_token)->tokenCodageId==5){
-            root->children[10] = createNode(";", root);
-            root->numChildren = 11;
-            return 1;
+        // ;
+        if ((*element_token)->tokenCodageId!=5){
+            printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
+            return -1;
         }
 
         (*element_token) = (*element_token)->next;

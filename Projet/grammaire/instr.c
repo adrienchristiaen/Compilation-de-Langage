@@ -4,6 +4,7 @@
 #include "instrplus.h"
 #include "boucle1.h"
 #include "boucle2.h"
+#include "exprinterro.h"
 
 int Instr(struct element_token_valeur ** element_token, struct Node * root){
     root->children = (struct Node**)malloc(1 * sizeof(struct Node*));
@@ -35,6 +36,7 @@ int Instr(struct element_token_valeur ** element_token, struct Node * root){
         root->children[2] = createNode("end", root);
         (*element_token) = (*element_token)->next;
         // ;
+        
         if ((*element_token)->tokenCodageId != 5){
             printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
             return -1;
@@ -131,34 +133,28 @@ int Instr(struct element_token_valeur ** element_token, struct Node * root){
     }
     // INSTR -> return EXPRINTERRO ';'
     if ((*element_token)->tokenCodageId == 14){
+
         root->children[0] = createNode("return", root);
         (*element_token) = (*element_token)->next;
-        
+        root->children[1] = createNode("EXPRINTERRO", root);
+        root->numChildren = 2;
+       
+        valider = Exprinterro(element_token, root->children[1]);
+        if (valider==-1){
+            return -1;
+        }
+         printf("Sortie : %s\n", (*element_token)->valeur[0]);
+    printf("Sortie : %d\n", (*element_token)->tokenCodageId);
         // ;
-        if ((*element_token)->tokenCodageId == 5){
-            root->children[1] = createNode(";", root);
-            (*element_token) = (*element_token)->next;
-            root->numChildren = 2;
-            return 1;
-        }
-        else {
-            root->children[1] = createNode("EXPRINTERRO", root);
-            valider= Expr(element_token, root->children[1]);
-            if (valider==-1){
-                return -1;
-            }
-            root->children[2] = createNode(";", root);
-            // ;
-            if ((*element_token)->tokenCodageId != 5){
-                printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
-                return -1;
-            }
-            (*element_token) = (*element_token)->next;
-            root->numChildren = 3;
-            return 1;
 
+        if ((*element_token)->tokenCodageId != 5){
+            printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
+            return -1;
         }
-        return 1;
+        
+        root->children[2] = createNode(";", root);
+        root->numChildren = 3;
+        (*element_token) = (*element_token)->next;
     }
     // INSTR -> while EXPR loop INSTRPLUS end loop ';'
     if ((*element_token)->tokenCodageId==31){
@@ -204,6 +200,7 @@ int Instr(struct element_token_valeur ** element_token, struct Node * root){
         }
         root->children[6] = createNode(";", root);
         root->numChildren = 7;
+        (*element_token) = (*element_token)->next;
         
     }
 
@@ -247,7 +244,7 @@ int Instr(struct element_token_valeur ** element_token, struct Node * root){
             return -1;
         }
         // on regarde si y'a un elsif ou un else
-        if ((*element_token)->tokenCodageId==26){
+        if ((*element_token)->tokenCodageId==27){
             root->children[4] = createNode("BOUCLE1", root);
             // on appelle la fonction Boucle1
             valider = Boucle1(element_token, root->children[4]);
@@ -282,41 +279,8 @@ int Instr(struct element_token_valeur ** element_token, struct Node * root){
             }
             (*element_token) = (*element_token)->next;
             root -> numChildren = 9;
-        }
-        else if ((*element_token)->tokenCodageId==27){
-            root->children[4] = createNode("BOUCLE2", root);
-
-            // on appelle la fonction Boucle2
-            valider = Boucle2(element_token, root->children[4]);
-            if (valider == -1){
-                return -1;
-            }
+        }}
         
-        // end
-        if ((*element_token)->tokenCodageId != 9){
-            printf(GREEN"Erreur : il faut le mot end \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
-            return -1;
-        }
-        root->children[5] = createNode("end", root);
-        (*element_token) = (*element_token)->next;
-        // if
-        if ((*element_token)->tokenCodageId != 24){
-            printf(GREEN"Erreur : il faut le mot if \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
-            return -1;
-        }
-        root->children[6] = createNode("if", root);
-        (*element_token) = (*element_token)->next;
-        // ;
-
-        if ((*element_token)->tokenCodageId != 5){
-            printf(GREEN"Erreur : il faut un ; \n Ligne : %d\n Colonne : %d\n"RESET,(*element_token)->line,(*element_token)->column);
-            return -1;
-        }
-        root->children[7] = createNode(";", root);
-        (*element_token) = (*element_token)->next
-        ;}
-                          return 1;
-    }
     // INSTR -> put '(' ident ou char ou bool ou integer ')' ';'
     if ((* element_token)->tokenCodageId==52){
         root->children[0] = createNode("put", root);

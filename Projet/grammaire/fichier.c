@@ -1,6 +1,7 @@
 #include "fichier.h"
 #include "declstar.h"
 #include "instrplus.h"
+#include "identinterro.h"
 int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
 
   root->children = (struct Node**)malloc(16 * sizeof(struct Node*));
@@ -15,6 +16,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
    root->children[0] = createNode("with", root);
+   root->numChildren = 1;
 
   // Nom du fichier
   element_token = element_token->next;
@@ -23,6 +25,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
    root->children[1] = createNode(element_token->valeur[0], root);
+   root->numChildren = 2;
 
   // ;
   element_token = element_token->next;
@@ -31,6 +34,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[2] = createNode(";", root);
+  root->numChildren = 3;
 
   // Use
   element_token = element_token->next;
@@ -39,6 +43,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root ->children[3] = createNode("use", root);
+  root->numChildren = 4;
 
   // Nom du fichier
   element_token = element_token->next;
@@ -47,6 +52,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[4] = createNode(element_token->valeur[0], root);
+  root->numChildren = 5;
 
 
   // ;
@@ -56,6 +62,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[5] = createNode(";", root);
+  root->numChildren = 6;
 
   // Procedure
   element_token = element_token->next;
@@ -64,6 +71,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[6] = createNode("procedure", root);
+  root->numChildren = 7;
 
   // Nom de la procedure
   element_token = element_token->next;
@@ -72,6 +80,7 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[7] = createNode(element_token->valeur[0], root);
+  root->numChildren = 8;
 
   // Is
   element_token = element_token->next;
@@ -80,10 +89,12 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[8] = createNode("is", root);
+  root->numChildren = 9;
   
   // On appelle la fonction Declstar
   element_token = element_token->next;
   root->children[9] = createNode("DECLSTAR", root);
+  root->numChildren = 10;
   valider = Declstar(&element_token, root->children[9]);
   if (valider==-1){
     return -1;
@@ -95,9 +106,11 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[10] = createNode("begin", root);
+  root->numChildren = 11;
   (element_token) = (element_token)->next;
 
   root->children[11] = createNode("INSTRPLUS", root);
+  root->numChildren = 12;
   
   // On appelle la fonction Instrplus
   valider = Instrplus(&element_token, root->children[11]);
@@ -111,34 +124,28 @@ int Fichier(struct linked_list_token_valeur * list_token, struct Node * root){
     return -1;
   }
   root->children[12] = createNode("end", root);
+  root->numChildren = 13;
 
   element_token = element_token->next;
 
     // identinterro
-  if (element_token->tokenCodageId == 53){
-    root->children[13] = createNode(element_token->valeur[0], root);
-    element_token = element_token->next;
-
-    if (element_token->tokenCodageId != 5){
-      printf(BLUE"Erreur : Il faut le mot ; \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
-      return -1;
-    }
-
-    root->children[14] = createNode(";", root);
-    root->children[15] = createNode("EOF", root);
-    root->numChildren = 16;
+  root->children[13] = createNode("IDENTINTERRO", root);
+  root->numChildren = 14;
+  valider=Identinterro(&element_token, root->children[13]);
+  if (valider==-1){
+    return -1;
   }
-  else if(element_token->tokenCodageId == 5){
-    root->children[13] = createNode(";", root);
-    root->children[14] = createNode("EOF", root);
-  }
-  else if (element_token->tokenCodageId !=5){
+  root->children[14] = createNode(";", root);
+  root->numChildren = 15;
+  if (element_token->tokenCodageId !=5){
     printf(BLUE"Erreur : Il faut le mot ; \n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
     return -1;
   }
 
-  element_token = element_token->next;
 
+  element_token = element_token->next;
+  root->children[15] = createNode("EOF", root);
+  root->numChildren = 16;
   // fin du fichier
   if (element_token->tokenCodageId !=0){
     printf(GREEN"Erreur : Le fichier doit se terminer\n Ligne : %d\n Colonne : %d\n"RESET,element_token->line,element_token->column);
